@@ -30,7 +30,7 @@ export CARGO_TARGET_DIR="$HOME/target-prof/$LABEL"
 BIN="$CARGO_TARGET_DIR/release/profile"
 OUT="profiles/$LABEL"
 mkdir -p "$OUT/raw"
-ARGS=(--n "$N" --prefill 200000 --heap-mib 256 --hash-power 22)
+ARGS=(--n "$N" --prefill "${PREFILL:-200000}" --heap-mib "${HEAP:-256}" --hash-power "${POWER:-22}")
 # Simulated caches use the M4 Pro performance core's geometry (192 KiB L1I,
 # 128 KiB L1D, 16 MiB shared L2, 128 B lines) rather than valgrind's
 # defaults. Associativities are approximations; the miss counts are a model,
@@ -43,7 +43,7 @@ MOD='s/^(\/Users\/[^\/]+\/code\/segcache-lab\/|\/home\/[^\/]+\/\.cargo\/registry
 scrub() { sed -e "s#$ROOT/##g" -e "s#$HOME#~#g"; }
 
 {
-  echo "# label=$LABEL rustflags='${RUSTFLAGS:-}' features='$FEATURES' n=$N"
+  echo "# label=$LABEL rustflags='${RUSTFLAGS:-}' features='$FEATURES' n=$N args=${ARGS[*]}"
   echo "# $(rustc --version); $(valgrind --version); $(uname -srm)"
   echo "op,n,ir,ir_per_op,dr_per_op,dw_per_op,d1_miss_per_op,ll_miss_per_op,cond_branch_per_op,mispredict_per_op"
 } > "$OUT/ops.csv"

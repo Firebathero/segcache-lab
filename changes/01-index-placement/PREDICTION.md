@@ -109,3 +109,24 @@ engine, 1,116 to 1,166 against 1,076.
 
 **Q4.** cache-rs's default, debug and shuttle suites pass with the same
 counts as on the pinned commit. All 13 `make verify` checks pass.
+
+## Follow-up: cost per operation at equal memory
+
+Added after measuring 0001 and 0002, before this run. Those cost numbers come
+from the Stop 2 workload at about 7% slot load. There most placements are
+ties and stay in the first bucket, which understates the cost of hits that
+land in the second. Here both engines hold the same objects, each with the
+index it needs for a refusal-free fill: 140,000 objects prefilled, then
+40,000 operations, ending at 180,000 objects. The baseline (first-fit)
+needs 2^20 slots, 17% full at the end. Least-loaded needs 2^18 slots, 69%
+full, a quarter of the index memory.
+
+**R1.** A least-loaded get-hit costs at most 40 instructions more than a
+baseline get-hit, because about half its keys sit in their second
+candidate.
+
+**R2.** Its last-level misses per get-hit are no higher than the baseline's.
+The index is 2 MiB instead of 8 MiB.
+
+**R3.** get-miss cost is within ±5 instructions of the baseline. Both scan
+both buckets.
