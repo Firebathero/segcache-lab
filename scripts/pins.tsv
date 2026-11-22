@@ -1,0 +1,5 @@
+# name	url	commit	role
+cache-rs	https://github.com/pelikan-io/cache-rs.git	4620d7e87cdc21c2356f6292121636f1537d30f3	segcache engine under test (crates/segcache)
+memcached	https://github.com/memcached/memcached.git	2d51e364799bc9698bd4b11728ea978cea12da6e	baseline, tag 1.6.45
+Segcache	https://github.com/Thesys-lab/Segcache.git	0abdfeed3031b5cf441f07d35ad2aeb3d870789d	paper's C artifact, read-only reference
+pelikan	https://github.com/pelikan-io/pelikan.git	cb2b7c0c4c5dc76f349736f1dfb20a8e5119dee8	server embedding the engine, read-only reference
