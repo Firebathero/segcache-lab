@@ -9,6 +9,7 @@ Writes, next to this file:
   refusals.csv        segcache insert outcomes by index slot load
   model-refusals.csv  the same for the first-fit and least-loaded models
   prediction.csv      the source-derived predictions (also in PREDICTION.md)
+  model-loads.csv     the placement models' first-refusal loads by table size
 
 Run from the repository root with `make exp01`.
 """
@@ -99,10 +100,16 @@ def refusals():
 
 
 def main():
-    steps = {"predict": None, "primary": primary, "sweep": sweep, "refusals": refusals}
+    steps = {"predict": None, "loads": None, "primary": primary, "sweep": sweep,
+             "refusals": refusals}
     chosen = sys.argv[1:] or list(steps)
     if "predict" in chosen:
         write("prediction.csv", run("predict").splitlines())
+    if "loads" in chosen:
+        lines = ["hash_power,buckets,mean,min,max,least_loaded_mean"]
+        for line in run("predict", "--loads").splitlines()[2:]:
+            lines.append(",".join(c.strip() for c in line.strip("|").split("|")))
+        write("model-loads.csv", lines)
     for step in chosen:
         if steps.get(step):
             steps[step]()
