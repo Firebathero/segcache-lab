@@ -35,14 +35,25 @@ table, and a share of a segment header.
   (`crates/segcache/src/hashtable/location.rs:20-28`, constants `:46-56`).
   That caps a segment at 2^23 B = 8 MiB (`location.rs:109`) and a heap at
   about 2^18 segments.
-- Lookups probe two candidate buckets by default (`hashtable/table.rs:148`).
-  There are no overflow chains. If every candidate bucket holds eight live
+- Each key has two candidate buckets by default (`hashtable/table.rs:148`),
+  derived from one 64-bit hash (`table.rs:266-278`). A fresh key takes a slot
+  in the first candidate that has one, in choice order (`table.rs:1304-1310`).
+  This is first-fit, not least-loaded. cache-rs's `docs/segcache.md:85` says
+  inserts prefer the least-full bucket; the code does that only on a retry
+  after both are full (`table.rs:1312-1324`).
+- There are no overflow chains. If both candidate buckets hold eight live
   entries, the insert fails (`table.rs:1326`), surfacing as
   `SegcacheError::HashTableInsertEx` (`crates/segcache/src/segcache.rs:847`,
-  `:856`).
-- The table is sized once, at construction: 2^`hash_power` buckets of 64 B.
+  `:856`). The builder still accepts `overflow_factor` and documents chaining
+  (`builder.rs:50-75`), but nothing reads the value. The C artifact chains
+  instead: a full bucket gets an overflow bucket (`hashtable.c:416-424`) and the
+  insert never fails.
+- The table is sized once, at construction. `hash_power` counts slots:
+  2^(`hash_power` - 3) buckets of 64 B (`table.rs:182-189`), so 8 B per slot.
   The default `hash_power` is 16 (`crates/segcache/src/builder.rs:20`), which
-  gives 65,536 buckets, 524,288 slots and 4 MiB. It does not grow.
+  gives 8,192 buckets, 65,536 slots and 512 KiB. It does not grow.
+- Hashing uses ahash with fixed seeds (`table.rs:175`), so one key set always
+  produces the same placement.
 
 ### Shared
 
@@ -87,10 +98,15 @@ when `vlen ≡ 2 (mod 8)`. Power-of-two value sizes never hit it.
 The paper's 5 B excludes the hash-table slot and frequency counter (§3.4
 footnote 4, PDF p. 7). For the Rust engine at the same scope, the figure is 6 B
 plus 1 to 8 B of alignment. Each object also occupies one 8 B slot in a table
-whose size is fixed in advance. The index share is `64 · 2^p / N` bytes per
-object for N objects, and `p` has to be large enough that two-choice placement
-never finds both buckets full at N. That makes the index share at least 8 B,
-and higher in practice. Experiment 01 measures it.
+whose size is fixed in advance. The index share is `8 · 2^p / N` bytes per
+object for N objects, and `p` has to be large enough that first-fit two-choice
+placement does not find both buckets full before N. That makes the index share
+at least 8 B, and higher in practice. Experiment 01 measures it.
+
+Correction: the first version of this note read `hash_power` as a bucket count
+and gave the default table as 65,536 buckets and 4 MiB, eight times too large.
+The experiment 01 smoke test exposed it: the hash-bound fills saturated at
+2^p objects, one per slot, not one per bucket.
 
 ## memcached (1.6.45)
 
