@@ -10,10 +10,14 @@ publish = false
 
 [dependencies]
 # Pinned by scripts/pins.tsv; scripts/fetch.sh checks out the commit.
-segcache = { path = "../repos/cache-rs/crates/segcache" }
+segcache = { path = "../repos/cache-rs/crates/segcache", default-features = false }
 keyvalue = { path = "../repos/cache-rs/crates/keyvalue" }
 
 [features]
+# The engine's own default: global counters on every operation. Build with
+# --no-default-features to measure the engine without them.
+default = ["metrics"]
+metrics = ["segcache/metrics"]
 # Drive segcache's expiry from a caller-supplied clock. Used by `verify` only:
 # it puts a thread-local lookup on the engine's read path.
 vclock = ["segcache/virtual-clock"]

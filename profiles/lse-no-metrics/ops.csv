@@ -1,0 +1,8 @@
+# label=lse-no-metrics rustflags='-C target-feature=+lse' features='--no-default-features' n=100000
+# rustc 1.100.0 (0ef1bc386 2026-11-09); valgrind-3.22.0; Linux 6.8.0-147-generic aarch64
+op,n,ir,ir_per_op,dr_per_op,dw_per_op,d1_miss_per_op,ll_miss_per_op,cond_branch_per_op,mispredict_per_op
+get-hit,100000,44799163,447.99,117.00,69.00,2.24,1.25,47.00,0.00
+get-miss,100000,43401064,434.01,76.00,35.00,2.12,1.23,35.00,1.00
+insert-fresh,100000,106442134,1064.42,248.51,138.01,3.58,2.10,108.39,6.37
+insert-replace,100000,67601724,676.02,178.01,91.00,2.93,2.14,80.00,0.00
+delete,100000,84914705,849.15,201.09,86.54,4.37,2.07,100.06,1.47

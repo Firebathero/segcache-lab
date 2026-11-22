@@ -27,6 +27,7 @@ from the commits in `notes/repos.md`.
 | stop | covers | file |
 |---|---|---|
 | 1 | Item, segment and index layout in both engines; paper vs C artifact vs Rust; where cache-rs's docs and code disagree | [notes/stop-1-layout.md](notes/stop-1-layout.md) |
+| 2 | Exact instructions per operation by component and source line; sixteen targets pinned to the structures they live in | [notes/stop-2-hot-paths.md](notes/stop-2-hot-paths.md) · [target map](notes/target-map.svg) |
 
 ## What you run
 
@@ -34,6 +35,9 @@ from the commits in `notes/repos.md`.
 make fetch     # clone upstreams at pinned commits, build memcached 1.6.45
 make verify    # 14 invariant checks on the model and both engines
 make exp01     # experiment 01 end to end, about 8 minutes on an M4 Pro
+make vm        # arm64 Linux VM with valgrind, for exact profiles
+make cachegrind           # instructions per operation, by component and line
+make samply OP=get-miss   # native call stacks in the Firefox Profiler
 ```
 
 This needs cargo (the toolchain is pinned in `rust-toolchain.toml`), a C
@@ -48,7 +52,8 @@ gives the paper's URL and SHA-256.
 |---|---|
 | `notes/` | crawl notes on the source, cited `file:line` at pinned commits |
 | `experiments/NN-name/` | `PREDICTION.md` (committed before the run), driver, raw CSVs, `RESULTS.md`, figures |
-| `harness/` | Rust crate: `capacity` (one measurement, one CSV row), `predict` (the source-derived model), `verify` |
+| `harness/` | Rust crate: `capacity` (one measurement, one CSV row), `predict` (the source-derived model), `verify`, `profile` (single-operation workloads for profilers) |
+| `profiles/` | per-build instruction counts: `ops.csv`, `components.csv`, `lines.csv`, annotated source per operation |
 | `env/host.md` | host description, and which experiments it can and cannot support |
 | `scripts/` | fetch, memcached build, host report |
 
@@ -72,8 +77,11 @@ gives the paper's URL and SHA-256.
   floor exactly: a 10 s TTL lives 8 s, and 1–7 s TTLs live 1 s
   (`notes/stop-1-layout.md`, harness `model.rs`). The memory and hit-ratio
   consequences are not measured yet.
-- **Changes to the engine.** Candidates so far: least-loaded placement in the
-  index (finding 3 of 01), exact item round-up (finding 5 of 01).
+- **Changes to the engine.** Sixteen candidates are mapped in Stop 2. None is
+  applied yet.
+- **Multi-threaded contention.** Stop 2 confirms three shared-line writes on
+  the read path (the frequency RNG word, the frequency CAS, the reader pin).
+  Their cost under threads is unmeasured.
 
 ## Licence
 

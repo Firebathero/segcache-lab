@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 600" width="1180" height="600" role="img" aria-label="Segcache target map: sixteen optimisation targets pinned to the hash table, segments, TTL buckets and per-operation costs">
+<style>
+.panel{fill:#fbfaf8;stroke:#d9d6cf}.box{fill:#ffffff;stroke:#b9b5ab}.slot{fill:#e3e0d8;stroke:#b9b5ab}
+.slot.full{fill:#c9c4b8}.free{fill:none;stroke:#b9b5ab;stroke-dasharray:3 3}
+.ink{fill:#1d1c1a}.ink2{fill:#55524b}.mute{fill:#8a867c}.line{stroke:#8a867c;fill:none}
+.acc{fill:#b4410e}.accs{stroke:#b4410e}.accbg{fill:#fbfaf8}
+.mk-m{fill:#b4410e;stroke:#b4410e}.mk-c{fill:#fbfaf8;stroke:#b4410e}.mk-h{fill:#fbfaf8;stroke:#8a867c;stroke-dasharray:3 2}
+.mt-m{fill:#ffffff}.mt-c{fill:#b4410e}.mt-h{fill:#55524b}
+@media (prefers-color-scheme: dark){
+.panel{fill:#1f1e1c;stroke:#3a3834}.box{fill:#262522;stroke:#55524b}.slot{fill:#33312d;stroke:#55524b}
+.slot.full{fill:#4a4741}.free{stroke:#55524b}.ink{fill:#ecebe6}.ink2{fill:#bdb9ae}.mute{fill:#8f8b80}
+.line{stroke:#8f8b80}.acc{fill:#f08a4b}.accs{stroke:#f08a4b}.accbg{fill:#1f1e1c}
+.mk-m{fill:#f08a4b;stroke:#f08a4b}.mk-c{fill:#1f1e1c;stroke:#f08a4b}.mk-h{fill:#1f1e1c;stroke:#8f8b80}
+.mt-m{fill:#1f1e1c}.mt-c{fill:#f08a4b}.mt-h{fill:#bdb9ae}}
+text{font-family:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+</style>
+<rect width="1180" height="600" class="accbg"/>
+<defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="mute"/></marker></defs>
+<rect x="12" y="12" width="572" height="330" rx="10" class="panel" stroke-width="1"/>
+<text x="28" y="38" class="ink" font-size="15" text-anchor="start" font-weight="600">Hash table</text>
+<text x="568" y="38" class="mute mono" font-size="11" text-anchor="end">Ir/op  hit 159 · miss 282 · fresh insert 522</text>
+<text x="28" y="62" class="ink2" font-size="11.5" text-anchor="start">key ─ ahash ─▶ 64-bit hash ─▶ tag 12 bits, two candidate buckets</text>
+<text x="28" y="104" class="ink2" font-size="12" text-anchor="start">bucket 1</text>
+<rect x="128" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="183" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="238" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="293" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="348" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="403" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="458" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="513" y="84" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<text x="28" y="144" class="ink2" font-size="12" text-anchor="start">bucket 2</text>
+<rect x="128" y="124" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="183" y="124" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="238" y="124" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="293" y="124" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="348" y="124" width="52" height="28" rx="3" class="slot full" stroke-width="1"/>
+<rect x="403" y="124" width="52" height="28" rx="3" class="slot" stroke-width="1"/>
+<rect x="458" y="124" width="52" height="28" rx="3" class="slot" stroke-width="1"/>
+<rect x="513" y="124" width="52" height="28" rx="3" class="slot" stroke-width="1"/>
+<text x="128" y="78" class="mute" font-size="10.5" text-anchor="start">one bucket = 8 slots × 8 B = 64 B</text>
+<circle cx="561" cy="74" r="10" class="mk-h" stroke-width="1.6"/>
+<text x="561" y="78" class="mt-h" font-size="11" text-anchor="middle" font-weight="700">7</text>
+<text x="28" y="176" class="ink2" font-size="11.5" text-anchor="start">Placement: first candidate with a free slot (first-fit).</text>
+<text x="28" y="192" class="ink2" font-size="11.5" text-anchor="start">No overflow chain: both candidates full ─▶ insert refused.</text>
+<circle cx="560" cy="182" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="560" y="186" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">1</text>
+<rect x="28" y="206" width="516" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="40" y="223" class="ink2 mono" font-size="11" text-anchor="start">slot: tag 12 │ freq 8 │ seg 18 · gen 6 · offset÷8 20</text>
+<circle cx="560" cy="219" r="10" class="mk-c" stroke-width="1.6"/>
+<text x="560" y="223" class="mt-c" font-size="11" text-anchor="middle" font-weight="700">6</text>
+<circle cx="40" cy="252" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="40" y="256" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">2</text>
+<text x="60" y="256" class="ink" font-size="11.5" text-anchor="start">Miss: second scalar pass over both buckets, looking for ghosts</text>
+<circle cx="40" cy="273" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="40" y="277" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">3</text>
+<text x="60" y="277" class="ink" font-size="11.5" text-anchor="start">Tag match: NEON compare, match mask built one lane at a time</text>
+<circle cx="40" cy="294" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="40" y="298" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">4</text>
+<text x="60" y="298" class="ink" font-size="11.5" text-anchor="start">New-key insert: replace check before and after the stripe lock, two claim passes</text>
+<circle cx="40" cy="315" r="10" class="mk-c" stroke-width="1.6"/>
+<text x="40" y="319" class="mt-c" font-size="11" text-anchor="middle" font-weight="700">5</text>
+<text x="60" y="319" class="ink" font-size="11.5" text-anchor="start">Frequency draw: one table-wide AtomicU64, one ldadd per hit below freq 127</text>
+<rect x="596" y="12" width="572" height="330" rx="10" class="panel" stroke-width="1"/>
+<text x="612" y="38" class="ink" font-size="15" text-anchor="start" font-weight="600">Segments</text>
+<text x="1152" y="38" class="mute mono" font-size="11" text-anchor="end">Ir/op  hit 79 · replace 184 · delete 177</text>
+<text x="612" y="62" class="ink2" font-size="11.5" text-anchor="start">headers (separate array, 64 B each)</text>
+<rect x="612" y="72" width="64" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="644.0" y="89" class="mute" font-size="10.5" text-anchor="middle">hdr 0</text>
+<rect x="680" y="72" width="64" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="712.0" y="89" class="mute" font-size="10.5" text-anchor="middle">hdr 1</text>
+<rect x="748" y="72" width="64" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="780.0" y="89" class="mute" font-size="10.5" text-anchor="middle">hdr 2</text>
+<rect x="816" y="72" width="64" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="848.0" y="89" class="mute" font-size="10.5" text-anchor="middle">hdr 3</text>
+<rect x="884" y="72" width="64" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="916.0" y="89" class="mute" font-size="10.5" text-anchor="middle">hdr 4</text>
+<rect x="952" y="72" width="64" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="984.0" y="89" class="mute" font-size="10.5" text-anchor="middle">hdr 5</text>
+<path d="M612,104 v6 h132 v-6" class="line" stroke-width="1" fill="none"/>
+<text x="678" y="122" class="mute" font-size="9.5" text-anchor="middle">one 128 B line</text>
+<path d="M748,104 v6 h132 v-6" class="line" stroke-width="1" fill="none"/>
+<text x="814" y="122" class="mute" font-size="9.5" text-anchor="middle">one 128 B line</text>
+<path d="M884,104 v6 h132 v-6" class="line" stroke-width="1" fill="none"/>
+<text x="950" y="122" class="mute" font-size="9.5" text-anchor="middle">one 128 B line</text>
+<circle cx="1032" cy="85" r="10" class="mk-h" stroke-width="1.6"/>
+<text x="1032" y="89" class="mt-h" font-size="11" text-anchor="middle" font-weight="700">12</text>
+<text x="1052" y="82" class="ink2" font-size="10.5" text-anchor="start">write offset, live bytes,</text>
+<text x="1052" y="96" class="ink2" font-size="10.5" text-anchor="start">ref count, generation</text>
+<text x="612" y="148" class="ink2" font-size="11.5" text-anchor="start">Read pin: ref count +1 on get, −1 on drop (acq_rel)</text>
+<line x1="780" y1="140" x2="744" y2="101" class="line" stroke-width="1.2" marker-end="url(#arr)"/>
+<circle cx="880" cy="144" r="10" class="mk-c" stroke-width="1.6"/>
+<text x="880" y="148" class="mt-c" font-size="11" text-anchor="middle" font-weight="700">10</text>
+<text x="1132" y="148" class="ink2" font-size="11" text-anchor="end">Replace: two pins (#99)</text>
+<circle cx="1150" cy="144" r="10" class="mk-c" stroke-width="1.6"/>
+<text x="1150" y="148" class="mt-c" font-size="11" text-anchor="middle" font-weight="700">13</text>
+<text x="612" y="176" class="ink2" font-size="11.5" text-anchor="start">segment data (1 MiB, append-only)</text>
+<rect x="612" y="184" width="96" height="34" rx="2" class="slot full" stroke-width="1"/>
+<rect x="710" y="184" width="64" height="34" rx="2" class="slot full" stroke-width="1"/>
+<rect x="776" y="184" width="120" height="34" rx="2" class="slot full" stroke-width="1"/>
+<rect x="898" y="184" width="80" height="34" rx="2" class="slot full" stroke-width="1"/>
+<rect x="980" y="184" width="172" height="34" rx="2" class="free" stroke-width="1"/>
+<text x="990" y="205" class="mute" font-size="10.5" text-anchor="start">free</text>
+<line x1="979" y1="234" x2="979" y2="220" class="line" stroke-width="1.2" marker-end="url(#arr)"/>
+<text x="976" y="246" class="ink2" font-size="11" text-anchor="end">Append: one CAS'd tail offset per TTL bucket</text>
+<circle cx="996" cy="242" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="996" y="246" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">11</text>
+<rect x="612" y="274" width="96" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="660.0" y="291" class="ink2 mono" font-size="11" text-anchor="middle">header 6 B</text>
+<rect x="708" y="274" width="120" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="768.0" y="291" class="ink2 mono" font-size="11" text-anchor="middle">key</text>
+<rect x="828" y="274" width="210" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="933.0" y="291" class="ink2 mono" font-size="11" text-anchor="middle">value</text>
+<rect x="1038" y="274" width="94" height="26" rx="3" class="box" stroke-width="1"/>
+<text x="1085.0" y="291" class="ink2 mono" font-size="11" text-anchor="middle">pad 1–8 B</text>
+<path d="M612,218 L612,274 M708,218 L1132,274" class="line" stroke-width="0.8" stroke-dasharray="2 3" fill="none"/>
+<text x="612" y="320" class="mute" font-size="10.5" text-anchor="start">item</text>
+<circle cx="660.0" cy="318" r="10" class="mk-c" stroke-width="1.6"/>
+<text x="660.0" y="322" class="mt-c" font-size="11" text-anchor="middle" font-weight="700">9</text>
+<circle cx="1085.0" cy="318" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="1085.0" y="322" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">8</text>
+<rect x="12" y="354" width="572" height="170" rx="10" class="panel" stroke-width="1"/>
+<text x="28" y="380" class="ink" font-size="15" text-anchor="start" font-weight="600">TTL buckets</text>
+<text x="568" y="380" class="mute mono" font-size="11" text-anchor="end">1,024 buckets in 4 tiers</text>
+<text x="28" y="398" class="ink2" font-size="11.5" text-anchor="start">Tier 1: TTLs of 1–2,047 s in 8 s buckets. Effective lifetime is the bucket floor.</text>
+<line x1="40" y1="440" x2="520" y2="440" class="line" stroke-width="1"/>
+<line x1="40.0" y1="435" x2="40.0" y2="445" class="line" stroke-width="1"/>
+<text x="40.0" y="460" class="mute" font-size="10.5" text-anchor="middle">0 s</text>
+<line x1="160.0" y1="435" x2="160.0" y2="445" class="line" stroke-width="1"/>
+<text x="160.0" y="460" class="mute" font-size="10.5" text-anchor="middle">8 s</text>
+<line x1="280.0" y1="435" x2="280.0" y2="445" class="line" stroke-width="1"/>
+<text x="280.0" y="460" class="mute" font-size="10.5" text-anchor="middle">16 s</text>
+<line x1="400.0" y1="435" x2="400.0" y2="445" class="line" stroke-width="1"/>
+<text x="400.0" y="460" class="mute" font-size="10.5" text-anchor="middle">24 s</text>
+<line x1="520.0" y1="435" x2="520.0" y2="445" class="line" stroke-width="1"/>
+<text x="520.0" y="460" class="mute" font-size="10.5" text-anchor="middle">32 s</text>
+<circle cx="190.0" cy="440" r="4" class="acc"/>
+<line x1="190.0" y1="428" x2="163.0" y2="428" class="line" stroke-width="1.2" marker-end="url(#arr)"/>
+<text x="196.0" y="424" class="ink" font-size="11" text-anchor="start">TTL 10 s ─▶ 8 s</text>
+<circle cx="115.0" cy="440" r="4" class="acc"/>
+<line x1="115.0" y1="474" x2="58.0" y2="474" class="line" stroke-width="1.2" marker-end="url(#arr)"/>
+<text x="121.0" y="478" class="ink" font-size="11" text-anchor="start">TTL 1–7 s ─▶ 1 s</text>
+<text x="40" y="502" class="ink2" font-size="11" text-anchor="start">Expiry runs from segment creation; items written later in a segment lose more.</text>
+<circle cx="560" cy="480" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="560" y="484" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">14</text>
+<rect x="596" y="354" width="572" height="170" rx="10" class="panel" stroke-width="1"/>
+<text x="612" y="380" class="ink" font-size="15" text-anchor="start" font-weight="600">Cross-cutting</text>
+<circle cx="624" cy="400" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="624" y="404" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">15</text>
+<text x="644" y="404" class="ink" font-size="11.5" text-anchor="start">Outline atomics (aarch64 Linux default build):</text>
+<text x="644" y="420" class="ink2" font-size="11" text-anchor="start">+6.4% Ir on get-hit, +17.1% on replace, against +lse</text>
+<circle cx="624" cy="452" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="624" y="456" class="mt-m" font-size="11" text-anchor="middle" font-weight="700">16</text>
+<text x="644" y="456" class="ink" font-size="11.5" text-anchor="start">Global metrics counters, one atomic add per event:</text>
+<text x="644" y="472" class="ink2" font-size="11" text-anchor="start">1.3% of get-hit Ir, 6.2% of replace; contention not measured</text>
+<circle cx="24" cy="560" r="10" class="mk-m" stroke-width="1.6"/>
+<text x="24" y="564" class="mt-m" font-size="11" text-anchor="middle" font-weight="700"></text>
+<text x="42" y="564" class="ink2" font-size="11.5" text-anchor="start">measured</text>
+<circle cx="148" cy="560" r="10" class="mk-c" stroke-width="1.6"/>
+<text x="148" y="564" class="mt-c" font-size="11" text-anchor="middle" font-weight="700"></text>
+<text x="166" y="564" class="ink2" font-size="11.5" text-anchor="start">confirmed in source or machine code, cost not yet measured</text>
+<circle cx="626" cy="560" r="10" class="mk-h" stroke-width="1.6"/>
+<text x="626" y="564" class="mt-h" font-size="11" text-anchor="middle" font-weight="700"></text>
+<text x="644" y="564" class="ink2" font-size="11.5" text-anchor="start">hypothesis</text>
+<text x="1168" y="564" class="mute mono" font-size="10.5" text-anchor="end">cache-rs 4620d7e · Ir from cachegrind, +lse build</text>
+</svg>
