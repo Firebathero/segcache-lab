@@ -22,12 +22,32 @@ from the commits in `notes/repos.md`.
   <img alt="Total overhead per object, heap and index" src="experiments/01-metadata-overhead/figures/01-total-overhead.svg">
 </picture>
 
+## Optimization targets, ranked by total effect
+
+Sixteen candidate changes are mapped in [Stop 2](notes/stop-2-hot-paths.md).
+[Stop 3](notes/stop-3-amdahl.md) ranks them by what they can move overall,
+not by local cost:
+
+1. **TTL floor.** Max-ages of 1–7 s live 1 s, so for short-TTL traffic an
+   object's miss ratio rises 1.5× to 4.5×. Negligible for TTLs of minutes or
+   more.
+2. **Index placement and sizing.** First-fit two-choice placement in a
+   power-of-two table. Least-loaded placement in an exactly sized table holds
+   1.50× as many objects per byte at 32 B values and 1.33× at 64 B.
+3. **Shared-line atomics on the read path.** The frequency RNG word, slot
+   CAS, reader pins and metrics counters. Their cost under threads is
+   pending measurement.
+4. **Instruction-level work.** The ghost rescan, NEON tag mask and insert
+   rescans: at most 23% of engine instructions, which is a small share of a
+   networked request.
+
 ## Source notes
 
 | stop | covers | file |
 |---|---|---|
 | 1 | Item, segment and index layout in both engines; paper vs C artifact vs Rust; where cache-rs's docs and code disagree | [notes/stop-1-layout.md](notes/stop-1-layout.md) |
 | 2 | Exact instructions per operation by component and source line; sixteen targets pinned to the structures they live in | [notes/stop-2-hot-paths.md](notes/stop-2-hot-paths.md) · [target map](notes/target-map.svg) |
+| 3 | Amdahl budget: each target judged against memory, misses and CPU; timed half pending AC power | [notes/stop-3-amdahl.md](notes/stop-3-amdahl.md) |
 
 ## What you run
 

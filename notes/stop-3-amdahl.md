@@ -44,6 +44,8 @@ worth 1.04× to 1.5× more objects in the same memory.
 
 ## Misses: the TTL floor
 
+![Miss ratio by max-age](../profiles/amdahl/figures/03-ttl-floor-1rps.svg)
+
 Every TTL below 2,048 s lives to the floor of its 8 s bucket, and every TTL
 from 1 to 7 s lives 1 s (Stop 1, verified exactly by `make verify`). Take one
 object whose requests arrive as a Poisson process at rate λ, cached on miss
@@ -69,6 +71,8 @@ At those TTLs the effect is under 1.1×.
 
 The fix has a memory cost. Narrower tier-1 buckets mean more TTL buckets with
 an open, partly filled segment at once. Experiment 03 measures both sides.
+
+![Objects per byte with a different index](../profiles/amdahl/figures/03-capacity-gain.svg)
 
 ## Misses: capacity converted to miss ratio
 
