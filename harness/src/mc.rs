@@ -7,10 +7,16 @@ use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::time::{Duration, Instant};
 
-/// Path of the memcached binary built by scripts/build-memcached.sh,
-/// relative to the repository root.
+/// Path of the memcached binary built by scripts/build-memcached.sh, found
+/// from the crate's manifest upward, so variant builds under
+/// harness/variants/ resolve it too.
 pub fn default_binary() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../repos/memcached/memcached")
+    let rel = Path::new("repos/memcached/memcached");
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .ancestors()
+        .map(|dir| dir.join(rel))
+        .find(|p| p.exists())
+        .unwrap_or_else(|| Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join(rel))
 }
 
 pub struct Server {

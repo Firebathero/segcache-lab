@@ -24,8 +24,9 @@ FEATURES=${FEATURES:-}
 N=${N:-100000}
 OPS=${OPS:-"get-hit get-miss insert-fresh insert-replace delete"}
 ROOT=$(pwd)
+HARNESS=${HARNESS:-harness}   # or harness/variants/<name> (scripts/variant.sh)
 export CARGO_TARGET_DIR="$HOME/target-prof/$LABEL"
-(cd harness && cargo build -q --release --bin profile $FEATURES)
+(cd "$HARNESS" && cargo build -q --release --bin profile $FEATURES)
 BIN="$CARGO_TARGET_DIR/release/profile"
 OUT="profiles/$LABEL"
 mkdir -p "$OUT/raw"
