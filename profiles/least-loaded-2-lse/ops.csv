@@ -1,0 +1,8 @@
+# label=least-loaded-2-lse rustflags='-C target-feature=+lse' features='' n=100000
+# rustc 1.100.0 (0ef1bc386 2026-11-09); valgrind-3.22.0; Linux 6.8.0-147-generic aarch64
+op,n,ir,ir_per_op,dr_per_op,dw_per_op,d1_miss_per_op,ll_miss_per_op,cond_branch_per_op,mispredict_per_op
+get-hit,100000,46415092,464.15,117.57,68.00,2.39,1.35,47.43,0.16
+get-miss,100000,43501124,435.01,76.00,34.00,2.12,1.23,35.00,1.00
+insert-fresh,100000,120815368,1208.15,274.48,154.27,3.58,2.10,152.11,7.80
+insert-replace,100000,73032308,730.32,199.58,97.00,3.08,2.24,88.43,1.16
+delete,100000,89612036,896.12,219.86,90.54,4.45,2.08,106.83,1.66

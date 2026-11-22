@@ -1,0 +1,47 @@
+op,component,ir_per_op
+get-hit,hash table,168.3
+get-hit,API and retry logic,91.0
+get-hit,segments and pins,79.0
+get-hit,other std inlines,71.85
+get-hit,"atomics, inlined",24.0
+get-hit,item layout,10.0
+get-hit,key hashing,8.0
+get-hit,clock,7.0
+get-hit,"atomics, outline helpers",4.0
+get-hit,free queue,1.0
+get-miss,hash table,282.0
+get-miss,API and retry logic,54.0
+get-miss,other std inlines,53.99
+get-miss,"atomics, inlined",36.0
+get-miss,key hashing,8.0
+get-miss,free queue,1.0
+insert-fresh,hash table,538.64
+insert-fresh,other std inlines,311.78
+insert-fresh,"atomics, inlined",153.68
+insert-fresh,API and retry logic,57.0
+insert-fresh,memcpy and memcmp,42.01
+insert-fresh,segments and pins,31.04
+insert-fresh,TTL buckets,27.0
+insert-fresh,key hashing,23.0
+insert-fresh,"atomics, outline helpers",12.0
+insert-fresh,item layout,11.0
+insert-fresh,free queue,1.0
+insert-replace,segments and pins,184.01
+insert-replace,hash table,182.16
+insert-replace,other std inlines,115.14
+insert-replace,"atomics, inlined",94.01
+insert-replace,API and retry logic,77.0
+insert-replace,TTL buckets,27.0
+insert-replace,item layout,25.0
+insert-replace,memcpy and memcmp,14.0
+insert-replace,key hashing,8.0
+insert-replace,"atomics, outline helpers",4.0
+delete,hash table,329.11
+delete,other std inlines,184.73
+delete,segments and pins,177.23
+delete,"atomics, inlined",94.4
+delete,key hashing,36.39
+delete,API and retry logic,33.0
+delete,item layout,31.25
+delete,clock,6.0
+delete,"atomics, outline helpers",4.0

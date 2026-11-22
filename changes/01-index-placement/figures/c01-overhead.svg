@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" font-family='system-ui, -apple-system, "Segoe UI", sans-serif' role="img" aria-label="Overhead per object, heap and index, before and after">
+<rect width="760" height="440" fill="#fcfcfb"/>
+<text x="64" y="28" font-size="16" font-weight="600" fill="#0b0b0b">Overhead per object, heap and index, before and after</text>
+<text x="64" y="48" font-size="12" fill="#52514e">64 MiB heap, 16 B keys, index sized for a refusal-free fill. Mean of 5 key sets. Measured.</text>
+<line x1="64" y1="70" x2="80" y2="70" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<text x="86" y="74" font-size="12" fill="#52514e">segcache, least-loaded</text>
+<line x1="262.0" y1="70" x2="278.0" y2="70" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<text x="284.0" y="74" font-size="12" fill="#52514e">segcache today</text>
+<line x1="404.0" y1="70" x2="420.0" y2="70" stroke="#1baf7a" stroke-width="2" stroke-linecap="round"/>
+<text x="426.0" y="74" font-size="12" fill="#52514e">memcached -C -f 1.08</text>
+<line x1="64" y1="388.0" x2="592" y2="388.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="392.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">10</text>
+<line x1="64" y1="347.1" x2="592" y2="347.1" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="351.1" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">20</text>
+<line x1="64" y1="292.9" x2="592" y2="292.9" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="296.9" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">50</text>
+<line x1="64" y1="252.0" x2="592" y2="252.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="256.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">100</text>
+<line x1="64" y1="211.1" x2="592" y2="211.1" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="215.1" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">200</text>
+<line x1="64" y1="156.9" x2="592" y2="156.9" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="160.9" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">500</text>
+<line x1="64" y1="116.0" x2="592" y2="116.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="56" y="120.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">1,000</text>
+<line x1="64.0" y1="388" x2="64.0" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="64.0" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">32</text>
+<line x1="139.4" y1="388" x2="139.4" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="139.4" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">64</text>
+<line x1="214.9" y1="388" x2="214.9" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="214.9" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">128</text>
+<line x1="290.3" y1="388" x2="290.3" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="290.3" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">256</text>
+<line x1="365.7" y1="388" x2="365.7" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="365.7" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">512</text>
+<line x1="441.1" y1="388" x2="441.1" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="441.1" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">1,024</text>
+<line x1="516.6" y1="388" x2="516.6" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="516.6" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">2,048</text>
+<line x1="592.0" y1="388" x2="592.0" y2="392" stroke="#c3c2b7" stroke-width="1"/>
+<text x="592.0" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">4,096</text>
+<line x1="64" y1="388" x2="592" y2="388" stroke="#c3c2b7" stroke-width="1"/>
+<text x="328.0" y="428" font-size="12" text-anchor="middle" fill="#52514e">value size, bytes (log)</text>
+<text x="64" y="106" font-size="12" fill="#52514e">bytes per object (log)</text>
+<path d="M64.0,279.8L139.4,277.9L214.9,280.0L290.3,269.3L365.7,264.0L441.1,249.2L516.6,253.8L592.0,196.8" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="279.8" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="139.4" cy="277.9" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="214.9" cy="280.0" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="290.3" cy="269.3" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="365.7" cy="264.0" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="441.1" cy="249.2" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="516.6" cy="253.8" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="592.0" cy="196.8" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<path d="M64.0,289.7L139.4,290.6L214.9,297.8L290.3,301.7L365.7,303.8L441.1,304.2L516.6,305.1L592.0,294.7" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="289.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="139.4" cy="290.6" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="214.9" cy="297.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="290.3" cy="301.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="365.7" cy="303.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="441.1" cy="304.2" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="516.6" cy="305.1" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="592.0" cy="294.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<path d="M64.0,341.4L139.4,323.1L214.9,329.3L290.3,332.5L365.7,334.3L441.1,334.0L516.6,335.1L592.0,318.6" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="341.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="139.4" cy="323.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="214.9" cy="329.3" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="290.3" cy="332.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="365.7" cy="334.3" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="441.1" cy="334.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="516.6" cy="335.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="592.0" cy="318.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<text x="602.0" y="200.8" font-size="12" fill="#0b0b0b">memcached -C -f 1.08</text>
+<text x="602.0" y="298.7" font-size="12" fill="#0b0b0b">segcache today</text>
+<text x="602.0" y="322.6" font-size="12" fill="#0b0b0b">segcache, least-loaded</text>
+</svg>

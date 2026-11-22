@@ -1,0 +1,6 @@
+# label=eqmem-first-fit-p20 rustflags='-C target-feature=+lse' features='' n=40000 args=--n 40000 --prefill 140000 --heap-mib 256 --hash-power 20
+# rustc 1.100.0 (0ef1bc386 2026-11-09); valgrind-3.22.0; Linux 6.8.0-147-generic aarch64
+op,n,ir,ir_per_op,dr_per_op,dw_per_op,d1_miss_per_op,ll_miss_per_op,cond_branch_per_op,mispredict_per_op
+get-hit,40000,18159977,454.00,116.00,68.00,2.24,0.40,47.00,0.00
+get-miss,40000,17401558,435.04,76.01,34.00,2.10,0.06,35.01,1.00
+insert-fresh,40000,43575912,1089.40,256.29,138.03,3.57,0.80,116.16,7.02

@@ -41,6 +41,16 @@ not by local cost:
    rescans: at most 23% of engine instructions, which is a small share of a
    networked request.
 
+## Changes to the engine
+
+Each change is a patch against the pinned cache-rs. Its predictions are
+committed before it is measured, and it runs through cache-rs's own unit,
+`debug` and shuttle suites.
+
+| # | change | result | details |
+|---|---|---|---|
+| 01 | Least-loaded placement in the hash index, as cache-rs's docs describe | First refused insert at 0.71–0.80 load instead of 0.30–0.55. The index needs one power of two fewer slots: 1.44× objects per byte at 32 B values, 1.20× at 64 B, 1.11× at 128 B. A hit costs about 22 more instructions and a new-key insert up to 299 more. All suites pass. | [RESULTS](changes/01-index-placement/RESULTS.md) · [patches](changes/01-index-placement/) |
+
 ## Source notes
 
 | stop | covers | file |
@@ -53,7 +63,7 @@ not by local cost:
 
 ```bash
 make fetch     # clone upstreams at pinned commits, build memcached 1.6.45
-make verify    # 14 invariant checks on the model and both engines
+make verify    # 13 invariant checks on the model and both engines
 make exp01     # experiment 01 end to end, about 8 minutes on an M4 Pro
 make vm        # arm64 Linux VM with valgrind, for exact profiles
 make cachegrind           # instructions per operation, by component and line
@@ -97,8 +107,8 @@ gives the paper's URL and SHA-256.
   floor exactly: a 10 s TTL lives 8 s, and 1–7 s TTLs live 1 s
   (`notes/stop-1-layout.md`, harness `model.rs`). The memory and hit-ratio
   consequences are not measured yet.
-- **Changes to the engine.** Sixteen candidates are mapped in Stop 2. None is
-  applied yet.
+- **Time per operation for change 01.** Change 01 trades instructions for
+  last-level misses, and the timed comparison is pending AC power.
 - **Multi-threaded contention.** Stop 2 confirms three shared-line writes on
   the read path (the frequency RNG word, the frequency CAS, the reader pin).
   Their cost under threads is unmeasured.

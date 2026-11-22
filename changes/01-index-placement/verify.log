@@ -1,0 +1,14 @@
+PASS model: segcache_item equals keyvalue::item_size for klen {1,16,100,250}, vlen 0..=8192
+PASS model: memcached_classes(1.25) equals the table memcached prints with -vv: 39 printed, 39 modelled
+PASS model: memcached_classes(1.08) equals the table memcached prints with -vv: 63 printed, 63 modelled
+PASS segcache: 50,000 inserts of 1..=8192 B all accepted and read back byte-exact: 0 refused, 0 not byte-exact
+PASS segcache: overwrite returns the new value: 0 wrong
+PASS segcache: delete removes exactly the deleted keys: 1000 deleted, 0 still readable, 1000/1000 neighbours
+PASS segcache: for each TTL in 1..=300 s and 7 tier-boundary values, the first miss is at the modelled bucket floor, never after the TTL
+PASS memcached: 50,000 sets of 1..=8192 B all stored, read back byte-exact, curr_items reconciles: 0 refused, 50000 hits, 0 not byte-exact, curr_items 50000
+PASS memcached: delete removes exactly the deleted keys: 1000 deleted, 0 still readable, 1000/1000 neighbours
+PASS memcached: a 2 s TTL is readable at once and not after 3.2 s (wall clock): at once true, +3.2 s false
+PASS capacity is deterministic: --backend segcache --value-size 100 --budget-mib 8 --hash-power 20: 69633,65536,65536,0,0,0,4097,0,0,NoFreeSegments, / 69633,65536,65536,0,0,0,4097,0,0,NoFreeSegments,
+PASS capacity is deterministic: --backend segcache --value-size 100 --budget-mib 8 --hash-power 14: 30022,16384,16384,0,0,13638,0,0,0,HashTableInsertEx,12559 / 30022,16384,16384,0,0,13638,0,0,0,HashTableInsertEx,12559
+PASS capacity is deterministic: --backend memcached --value-size 100 --budget-mib 8: 47872,43688,43688,0,0,0,4184,0,0,OutOfMemory, / 47872,43688,43688,0,0,0,4184,0,0,OutOfMemory,
+0 failure(s)

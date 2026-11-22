@@ -1,0 +1,1285 @@
+--------------------------------------------------------------------------------
+-- Metadata
+--------------------------------------------------------------------------------
+Invocation:       /usr/bin/cg_annotate --diff --mod-filename=s/^(\/Users\/[^\/]+\/code\/segcache-lab\/|\/home\/[^\/]+\/\.cargo\/registry\/src\/[^\/]+\/|\/rustc\/[0-9a-f]+\/)// --show-percs --threshold=0.5 --context=1 --show=Ir,Dr,Dw,D1mr,D1mw,DLmr,DLmw,Bcm profiles/least-loaded-2-lse/raw/cachegrind.insert-replace.base.out profiles/least-loaded-2-lse/raw/cachegrind.insert-replace.run.out
+I1 cache:         196608 B, 128 B, 6-way associative
+D1 cache:         131072 B, 128 B, 8-way associative
+LL cache:         16777216 B, 128 B, 16-way associative
+Command 1:        ~/target-prof/least-loaded-2-lse/release/profile --op insert-replace --n 100000 --prefill 200000 --heap-mib 256 --hash-power 22 --skip-phase 1
+Command 2:        ~/target-prof/least-loaded-2-lse/release/profile --op insert-replace --n 100000 --prefill 200000 --heap-mib 256 --hash-power 22
+Events recorded:  Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw Bc Bcm Bi Bim
+Events shown:     Ir Dr Dw D1mr D1mw DLmr DLmw Bcm
+Event sort order: Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw Bc Bcm Bi Bim
+Threshold:        0.5%
+Annotation:       on
+
+--------------------------------------------------------------------------------
+-- Summary
+--------------------------------------------------------------------------------
+Ir_________________ Dr_________________ Dw________________ D1mr____________ D1mw___________ DLmr____________ DLmw___________ Bcm_____________ 
+
+73,032,308 (100.0%) 19,958,088 (100.0%) 9,700,293 (100.0%) 238,867 (100.0%) 68,766 (100.0%) 155,459 (100.0%) 68,759 (100.0%) 116,336 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+-- File:function summary
+--------------------------------------------------------------------------------
+  Ir_______________________ Dr______________________ Dw_______________________ D1mr___________________ D1mw__________________ DLmr__________________ DLmw__________________ Bcm____________________  file:function
+
+< 11,586,422 (15.9%, 15.9%) 2,000,135 (10.0%, 10.0%) 1,300,004 (13.4%,  13.4%) 113,985 (47.7%,  47.7%)      0  (0.0%,   0.0%) 71,438 (46.0%,  46.0%)      0  (0.0%,   0.0%) 116,255 (99.9%,  99.9%)  repos/cache-rs-least-loaded-2/crates/segcache/src/hashtable/table.rs:<segcache::segcache::Segcache>::insert::<&[u8]>
+
+< 10,700,547 (14.7%, 30.5%) 3,700,174 (18.5%, 28.6%) 2,400,032 (24.7%,  38.1%)       1  (0.0%,  47.7%)      0  (0.0%,   0.0%)      1  (0.0%,  46.0%)      0  (0.0%,   0.0%)       9  (0.0%,  99.9%)  repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs:
+   3,900,000  (5.3%)        1,500,000  (7.5%)        1,400,000 (14.4%)               0                      0                      0                      0                       9  (0.0%)            <segcache::segments::segments::Segments>::remove_at
+   2,700,108  (3.7%)          900,036  (4.5%)          800,032  (8.2%)               0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::acquire_item_at
+   1,400,052  (1.9%)          400,012  (2.0%)                0                       1  (0.0%)              0                      1  (0.0%)              0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+   1,400,000  (1.9%)          400,000  (2.0%)          200,000  (2.1%)               0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::try_pin_remover
+   1,300,063  (1.8%)          500,027  (2.5%)                0                       0                      0                      0                      0                       0                    <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve
+
+<  9,400,682 (12.9%, 43.4%) 7,100,454 (35.6%, 64.1%)        54  (0.0%,  38.1%)  99,832 (41.8%,  89.5%)      0  (0.0%,   0.0%) 69,540 (44.7%,  90.7%)      0  (0.0%,   0.0%)       0  (0.0%,  99.9%)  library/core/src/sync/atomic.rs:
+   2,800,028  (3.8%)        1,700,020  (8.5%)                0                  99,781 (41.8%)              0                 69,525 (44.7%)              0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+   2,500,000  (3.4%)        2,200,000 (11.0%)                0                       0                      0                      0                      0                       0                    <segcache::segments::segment::Segment>::remove_item_at
+   2,300,090  (3.1%)        1,900,081  (9.5%)                0                       4  (0.0%)              0                      3  (0.0%)              0                       0                    <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve
+     700,000  (1.0%)          400,000  (2.0%)                0                       0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::remove_at
+     600,024  (0.8%)          500,020  (2.5%)                0                       7  (0.0%)              0                      4  (0.0%)              0                       0                    <segcache::segments::segments::Segments>::acquire_item_at
+     500,000  (0.7%)          400,000  (2.0%)                0                       0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::try_pin_remover
+
+<  7,700,000 (10.5%, 53.9%) 2,200,000 (11.0%, 75.2%) 2,100,000 (21.6%,  59.8%)       1  (0.0%,  89.5%)      2  (0.0%,   0.0%)      1  (0.0%,  90.7%)      2  (0.0%,   0.0%)       3  (0.0%,  99.9%)  repos/cache-rs-least-loaded-2/crates/segcache/src/segcache.rs:<segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  4,100,471  (5.6%, 59.5%)         0  (0.0%, 75.2%)   700,066  (7.2%,  67.0%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       0  (0.0%,  99.9%)  repos/cache-rs-least-loaded-2/crates/segcache/src/segments/state.rs:
+   1,600,064  (2.2%)                0                  200,008  (2.1%)               0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::acquire_item_at
+   1,000,090  (1.4%)                0                  200,018  (2.1%)               0                      0                      0                      0                       0                    <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve
+   1,000,000  (1.4%)                0                  200,000  (2.1%)               0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::try_pin_remover
+     500,020  (0.7%)                0                  100,004  (1.0%)               0                      0                      0                      0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  3,100,052  (4.2%, 63.8%)   700,016  (3.5%, 78.7%)   700,000  (7.2%,  74.2%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       6  (0.0%,  99.9%)  repos/cache-rs-least-loaded-2/crates/segcache/src/hashtable/mod.rs:
+   2,800,048  (3.8%)          700,016  (3.5%)          700,000  (7.2%)               0                      0                      0                      0                       6  (0.0%)            <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  2,700,315  (3.7%, 67.5%)   900,126  (4.5%, 83.2%) 1,400,135 (14.4%,  88.7%)       0  (0.0%,  89.5%)      2  (0.0%,   0.0%)      0  (0.0%,  90.7%)      2  (0.0%,   0.0%)       3  (0.0%,  99.9%)  repos/cache-rs-least-loaded-2/crates/segcache/src/ttl_buckets/ttl_bucket.rs:
+   2,700,036  (3.7%)          900,000  (4.5%)        1,400,000 (14.4%)               0                      2  (0.0%)              0                      2  (0.0%)               3  (0.0%)            <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve
+
+<  2,500,002  (3.4%, 70.9%)         0  (0.0%, 83.2%)         0  (0.0%,  88.7%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       0  (0.0%,  99.9%)  library/core/src/num/uint_macros.rs:
+   2,500,012  (3.4%)                0                        0                       0                      0                      0                      0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  1,943,185  (2.7%, 73.6%)   114,305  (0.6%, 83.8%)         0  (0.0%,  88.7%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       0  (0.0%,  99.9%)  library/core/src/../../stdarch/crates/core_arch/src/arm_shared/neon/generated.rs:<segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  1,800,000  (2.5%, 76.0%)   500,000  (2.5%, 86.3%)   200,000  (2.1%,  90.7%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       3  (0.0%, 100.0%)  repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segment.rs:<segcache::segments::segment::Segment>::remove_item_at
+
+<  1,700,097  (2.3%, 78.4%)         0  (0.0%, 86.3%)         0  (0.0%,  90.7%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       0  (0.0%, 100.0%)  library/core/src/cell.rs:
+     500,027  (0.7%)                0                        0                       0                      0                      0                      0                       0                    <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve
+     400,000  (0.5%)                0                        0                       0                      0                      0                      0                       0                    <segcache::segments::segment::Segment>::remove_item_at
+
+<  1,600,278  (2.2%, 80.6%)        36  (0.0%, 86.3%)        27  (0.0%,  90.7%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       1  (0.0%, 100.0%)  repos/cache-rs-least-loaded-2/crates/segcache/src/segments/header.rs:
+     700,045  (1.0%)                0                        0                       0                      0                      0                      0                       1  (0.0%)            <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve
+     700,000  (1.0%)                0                        0                       0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::try_pin_remover
+
+<  1,485,965  (2.0%, 82.6%)   228,610  (1.1%, 87.4%)         0  (0.0%,  90.7%)       0  (0.0%,  89.5%)      0  (0.0%,   0.0%)      0  (0.0%,  90.7%)      0  (0.0%,   0.0%)       0  (0.0%, 100.0%)  library/core/src/../../stdarch/crates/core_arch/src/aarch64/neon/generated.rs:<segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  1,399,946  (1.9%, 84.5%)   399,992  (2.0%, 89.4%)   399,992  (4.1%,  94.8%)       0  (0.0%,  89.5%) 50,006 (72.7%,  72.7%)      0  (0.0%,  90.7%) 50,006 (72.7%,  72.7%)       1  (0.0%, 100.0%)  ./string/../sysdeps/aarch64/multiarch/../memcpy.S:
+   1,399,946  (1.9%)          399,992  (2.0%)          399,992  (4.1%)               0                 50,005 (72.7%)              0                 50,005 (72.7%)               1  (0.0%)            __GI_memcpy
+
+<  1,300,000  (1.8%, 86.3%)         0  (0.0%, 89.4%)         0  (0.0%,  94.8%)       0  (0.0%,  89.5%)      0  (0.0%,  72.7%)      0  (0.0%,  90.7%)      0  (0.0%,  72.7%)       0  (0.0%, 100.0%)  repos/cache-rs-least-loaded-2/crates/keyvalue/src/item/raw.rs:
+   1,100,000  (1.5%)                0                        0                       0                      0                      0                      0                       0                    <segcache::segments::segment::Segment>::remove_item_at
+
+<  1,200,012  (1.6%, 87.9%)   100,000  (0.5%, 89.9%)   100,000  (1.0%,  95.9%)       0  (0.0%,  89.5%)      0  (0.0%,  72.7%)      0  (0.0%,  90.7%)      0  (0.0%,  72.7%)       0  (0.0%, 100.0%)  library/core/src/ptr/mut_ptr.rs:
+     500,004  (0.7%)          100,000  (0.5%)          100,000  (1.0%)               0                      0                      0                      0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<  1,200,008  (1.6%, 89.6%)   300,004  (1.5%, 91.4%)   300,000  (3.1%,  99.0%)       0  (0.0%,  89.5%)  6,253  (9.1%,  81.8%)      0  (0.0%,  90.7%)  6,253  (9.1%,  81.8%)       0  (0.0%, 100.0%)  repos/cache-rs-least-loaded-2/crates/keyvalue/src/item/header.rs:
+     900,008  (1.2%)          100,004  (0.5%)          300,000  (3.1%)               0                  6,253  (9.1%)              0                  6,253  (9.1%)               0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<    900,012  (1.2%, 90.8%)   500,012  (2.5%, 93.9%)         0  (0.0%,  99.0%)       0  (0.0%,  89.5%)      0  (0.0%,  81.8%)      0  (0.0%,  90.7%)      0  (0.0%,  81.8%)       0  (0.0%, 100.0%)  memmap2-0.9.12/src/unix.rs:
+     500,000  (0.7%)          100,000  (0.5%)                0                       0                      0                      0                      0                       0                    <segcache::segments::segments::Segments>::remove_at
+
+<    800,018  (1.1%, 91.9%)   500,017  (2.5%, 96.4%)         0  (0.0%,  99.0%)  12,511  (5.2%,  94.8%)      0  (0.0%,  81.8%)  8,413  (5.4%,  96.1%)      0  (0.0%,  81.8%)       0  (0.0%, 100.0%)  library/core/src/slice/cmp.rs:
+     800,032  (1.1%)          500,020  (2.5%)                0                  12,511  (5.2%)              0                  8,413  (5.4%)              0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<    628,619  (0.9%, 92.8%)         2  (0.0%, 96.4%)         0  (0.0%,  99.0%)       0  (0.0%,  94.8%)      0  (0.0%,  81.8%)      1  (0.0%,  96.1%)      0  (0.0%,  81.8%)       2  (0.0%, 100.0%)  library/core/src/slice/iter/macros.rs:
+     528,610  (0.7%)                0                        0                       0                      0                      0                      0                       1  (0.0%)            <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<    600,000  (0.8%, 93.6%)   400,000  (2.0%, 98.4%)         0  (0.0%,  99.0%)       1  (0.0%,  94.8%)      0  (0.0%,  81.8%)      1  (0.0%,  96.1%)      0  (0.0%,  81.8%)       0  (0.0%, 100.0%)  ahash-0.8.12/src/fallback_hash.rs:<segcache::segcache::Segcache>::insert::<&[u8]>
+
+<    599,978  (0.8%, 94.4%)    99,996  (0.5%, 98.9%)    99,991  (1.0%, 100.0%)  12,499  (5.2%, 100.0%) 12,496 (18.2%, 100.0%)  6,052  (3.9%, 100.0%) 12,496 (18.2%, 100.0%)       2  (0.0%, 100.0%)  library/core/src/ptr/mod.rs:
+     600,000  (0.8%)          100,000  (0.5%)          100,000  (1.0%)          12,501  (5.2%)         12,496 (18.2%)          6,054  (3.9%)         12,496 (18.2%)               2  (0.0%)            <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<    500,020  (0.7%, 95.1%)         8  (0.0%, 98.9%)         8  (0.0%, 100.0%)       1  (0.0%, 100.0%)      0  (0.0%, 100.0%)      1  (0.0%, 100.0%)      1  (0.0%, 100.0%)      -1 (-0.0%, 100.0%)  harness/variants/least-loaded-2/src/bin/profile.rs:
+     500,015  (0.7%)                9  (0.0%)                8  (0.0%)               0                      0                      0                      0                       0                    phase_insert_replace
+
+<    442,918  (0.6%, 95.7%)         0  (0.0%, 98.9%)         0  (0.0%, 100.0%)       0  (0.0%, 100.0%)      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)       0  (0.0%, 100.0%)  library/core/src/ptr/const_ptr.rs:
+     442,919  (0.6%)                0                        0                       0                      0                      0                      0                       0                    <segcache::segcache::Segcache>::insert::<&[u8]>
+
+<    400,028  (0.5%, 96.2%)   100,007  (0.5%, 99.4%)         0  (0.0%, 100.0%)       9  (0.0%, 100.0%)      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)       1  (0.0%, 100.0%)  ???:
+     400,028  (0.5%)          100,007  (0.5%)                0                      10  (0.0%)              0                      1  (0.0%)              0                       1  (0.0%)            ???
+
+<    400,027  (0.5%, 96.8%)         0  (0.0%, 99.4%)         0  (0.0%, 100.0%)       0  (0.0%, 100.0%)      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)      12  (0.0%, 100.0%)  library/core/src/result.rs:
+     400,000  (0.5%)                0                        0                       0                      0                      0                      0                       2  (0.0%)            phase_insert_replace
+
+--------------------------------------------------------------------------------
+-- Function:file summary
+--------------------------------------------------------------------------------
+  Ir________________________ Dr_______________________ Dw_______________________ D1mr____________________ D1mw__________________ DLmr____________________ DLmw__________________ Bcm____________________  function:file
+
+> 39,330,252 (53.9%,  53.9%) 8,857,435 (44.4%,  44.4%) 4,700,008 (48.5%,  48.5%) 238,781 (100.0%, 100.0%) 18,751 (27.3%,  27.3%) 155,433 (100.0%, 100.0%) 18,751 (27.3%,  27.3%) 116,267 (99.9%,  99.9%)  <segcache::segcache::Segcache>::insert::<&[u8]>:
+  11,586,422 (15.9%)         2,000,135 (10.0%)         1,300,004 (13.4%)         113,985  (47.7%)              0                  71,438  (46.0%)              0                 116,255 (99.9%)            repos/cache-rs-least-loaded-2/crates/segcache/src/hashtable/table.rs
+   7,700,000 (10.5%)         2,200,000 (11.0%)         2,100,000 (21.6%)               1   (0.0%)              2  (0.0%)               1   (0.0%)              2  (0.0%)               3  (0.0%)            repos/cache-rs-least-loaded-2/crates/segcache/src/segcache.rs
+   2,800,048  (3.8%)           700,016  (3.5%)           700,000  (7.2%)               0                       0                       0                       0                       6  (0.0%)            repos/cache-rs-least-loaded-2/crates/segcache/src/hashtable/mod.rs
+   2,800,028  (3.8%)         1,700,020  (8.5%)                 0                  99,781  (41.8%)              0                  69,525  (44.7%)              0                       0                    library/core/src/sync/atomic.rs
+   2,500,012  (3.4%)                 0                         0                       0                       0                       0                       0                       0                    library/core/src/num/uint_macros.rs
+   1,943,185  (2.7%)           114,305  (0.6%)                 0                       0                       0                       0                       0                       0                    library/core/src/../../stdarch/crates/core_arch/src/arm_shared/neon/generated.rs
+   1,485,965  (2.0%)           228,610  (1.1%)                 0                       0                       0                       0                       0                       0                    library/core/src/../../stdarch/crates/core_arch/src/aarch64/neon/generated.rs
+   1,400,052  (1.9%)           400,012  (2.0%)                 0                       1   (0.0%)              0                       1   (0.0%)              0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs
+     900,008  (1.2%)           100,004  (0.5%)           300,000  (3.1%)               0                   6,253  (9.1%)               0                   6,253  (9.1%)               0                    repos/cache-rs-least-loaded-2/crates/keyvalue/src/item/header.rs
+     800,032  (1.1%)           500,020  (2.5%)                 0                  12,511   (5.2%)              0                   8,413   (5.4%)              0                       0                    library/core/src/slice/cmp.rs
+     600,000  (0.8%)           400,000  (2.0%)                 0                       1   (0.0%)              0                       1   (0.0%)              0                       0                    ahash-0.8.12/src/fallback_hash.rs
+     600,000  (0.8%)           100,000  (0.5%)           100,000  (1.0%)          12,501   (5.2%)         12,496 (18.2%)           6,054   (3.9%)         12,496 (18.2%)               2  (0.0%)            library/core/src/ptr/mod.rs
+     528,610  (0.7%)                 0                         0                       0                       0                       0                       0                       1  (0.0%)            library/core/src/slice/iter/macros.rs
+     500,020  (0.7%)                 0                   100,004  (1.0%)               0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/state.rs
+     500,004  (0.7%)           100,000  (0.5%)           100,000  (1.0%)               0                       0                       0                       0                       0                    library/core/src/ptr/mut_ptr.rs
+     442,919  (0.6%)                 0                         0                       0                       0                       0                       0                       0                    library/core/src/ptr/const_ptr.rs
+
+>  9,300,414 (12.7%,  66.6%) 3,400,108 (17.0%,  61.4%) 1,600,018 (16.5%,  64.9%)       4   (0.0%, 100.0%)      2  (0.0%,  27.3%)       3   (0.0%, 100.0%)      2  (0.0%,  27.3%)      22  (0.0%, 100.0%)  <segcache::ttl_buckets::ttl_bucket::TtlBucket>::reserve:
+   2,700,036  (3.7%)           900,000  (4.5%)         1,400,000 (14.4%)               0                       2  (0.0%)               0                       2  (0.0%)               3  (0.0%)            repos/cache-rs-least-loaded-2/crates/segcache/src/ttl_buckets/ttl_bucket.rs
+   2,300,090  (3.1%)         1,900,081  (9.5%)                 0                       4   (0.0%)              0                       3   (0.0%)              0                       0                    library/core/src/sync/atomic.rs
+   1,300,063  (1.8%)           500,027  (2.5%)                 0                       0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs
+   1,000,090  (1.4%)                 0                   200,018  (2.1%)               0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/state.rs
+     700,045  (1.0%)                 0                         0                       0                       0                       0                       0                       1  (0.0%)            repos/cache-rs-least-loaded-2/crates/segcache/src/segments/header.rs
+     500,027  (0.7%)                 0                         0                       0                       0                       0                       0                       0                    library/core/src/cell.rs
+
+>  6,400,000  (8.8%,  75.4%) 2,900,000 (14.5%,  75.9%)   200,000  (2.1%,  67.0%)       0   (0.0%, 100.0%)      0  (0.0%,  27.3%)       0   (0.0%, 100.0%)      0  (0.0%,  27.3%)       3  (0.0%, 100.0%)  <segcache::segments::segment::Segment>::remove_item_at:
+   2,500,000  (3.4%)         2,200,000 (11.0%)                 0                       0                       0                       0                       0                       0                    library/core/src/sync/atomic.rs
+   1,800,000  (2.5%)           500,000  (2.5%)           200,000  (2.1%)               0                       0                       0                       0                       3  (0.0%)            repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segment.rs
+   1,100,000  (1.5%)                 0                         0                       0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/keyvalue/src/item/raw.rs
+     400,000  (0.5%)                 0                         0                       0                       0                       0                       0                       0                    library/core/src/cell.rs
+
+>  5,700,000  (7.8%,  83.2%) 2,000,000 (10.0%,  86.0%) 1,400,000 (14.4%,  81.4%)       0   (0.0%, 100.0%)      0  (0.0%,  27.3%)       0   (0.0%, 100.0%)      0  (0.0%,  27.3%)       9  (0.0%, 100.0%)  <segcache::segments::segments::Segments>::remove_at:
+   3,900,000  (5.3%)         1,500,000  (7.5%)         1,400,000 (14.4%)               0                       0                       0                       0                       9  (0.0%)            repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs
+     700,000  (1.0%)           400,000  (2.0%)                 0                       0                       0                       0                       0                       0                    library/core/src/sync/atomic.rs
+     500,000  (0.7%)           100,000  (0.5%)                 0                       0                       0                       0                       0                       0                    memmap2-0.9.12/src/unix.rs
+
+>  5,600,224  (7.7%,  90.8%) 1,500,060  (7.5%,  93.5%) 1,000,040 (10.3%,  91.8%)       7   (0.0%, 100.0%)      0  (0.0%,  27.3%)       4   (0.0%, 100.0%)      0  (0.0%,  27.3%)       0  (0.0%, 100.0%)  <segcache::segments::segments::Segments>::acquire_item_at:
+   2,700,108  (3.7%)           900,036  (4.5%)           800,032  (8.2%)               0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs
+   1,600,064  (2.2%)                 0                   200,008  (2.1%)               0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/state.rs
+     600,024  (0.8%)           500,020  (2.5%)                 0                       7   (0.0%)              0                       4   (0.0%)              0                       0                    library/core/src/sync/atomic.rs
+
+>  3,800,000  (5.2%,  96.0%)   800,000  (4.0%,  97.5%)   400,000  (4.1%,  95.9%)       0   (0.0%, 100.0%)      0  (0.0%,  27.3%)       0   (0.0%, 100.0%)      0  (0.0%,  27.3%)       0  (0.0%, 100.0%)  <segcache::segments::segments::Segments>::try_pin_remover:
+   1,400,000  (1.9%)           400,000  (2.0%)           200,000  (2.1%)               0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs
+   1,000,000  (1.4%)                 0                   200,000  (2.1%)               0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/state.rs
+     700,000  (1.0%)                 0                         0                       0                       0                       0                       0                       0                    repos/cache-rs-least-loaded-2/crates/segcache/src/segments/header.rs
+     500,000  (0.7%)           400,000  (2.0%)                 0                       0                       0                       0                       0                       0                    library/core/src/sync/atomic.rs
+
+>  1,399,946  (1.9%,  97.9%)   399,992  (2.0%,  99.5%)   399,992  (4.1%, 100.0%)       0   (0.0%, 100.0%) 50,005 (72.7%, 100.0%)       0   (0.0%, 100.0%) 50,005 (72.7%, 100.0%)       1  (0.0%, 100.0%)  __GI_memcpy:./string/../sysdeps/aarch64/multiarch/../memcpy.S
+
+>  1,100,021  (1.5%,  99.5%)        13  (0.0%,  99.5%)         9  (0.0%, 100.0%)       0   (0.0%, 100.0%)      0  (0.0%, 100.0%)       0   (0.0%, 100.0%)      0  (0.0%, 100.0%)       3  (0.0%, 100.0%)  phase_insert_replace:
+     500,015  (0.7%)                 9  (0.0%)                 8  (0.0%)               0                       0                       0                       0                       0                    harness/variants/least-loaded-2/src/bin/profile.rs
+     400,000  (0.5%)                 0                         0                       0                       0                       0                       0                       2  (0.0%)            library/core/src/result.rs
+
+>    400,028  (0.5%, 100.0%)   100,007  (0.5%, 100.0%)         0  (0.0%, 100.0%)      10   (0.0%, 100.0%)      0  (0.0%, 100.0%)       1   (0.0%, 100.0%)      0  (0.0%, 100.0%)       1  (0.0%, 100.0%)  ???:???
+
+--------------------------------------------------------------------------------
+-- Annotated source file: ./string/../sysdeps/aarch64/multiarch/../memcpy.S
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- ./string/../sysdeps/aarch64/multiarch/../memcpy.S
+
+--------------------------------------------------------------------------------
+-- Annotated source file: ahash-0.8.12/src/fallback_hash.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr____________ Dw D1mr____ D1mw DLmr____ DLmw Bcm 
+
+      0              0         0 0           0 0           0   0  <unknown (line 0)>
+
+-- line 58 ----------------------------------------
+      .              .         . .           . .           .   .          AHasher {
+100,000 (0.1%) 200,000 (1.0%)  0 1 (0.0%)    0 1 (0.0%)    0   0              buffer: rand_state.k1,
+100,000 (0.1%) 100,000 (0.5%)  0 0           0 0           0   0              pad: rand_state.k0,
+100,000 (0.1%) 100,000 (0.5%)  0 0           0 0           0   0              extra_keys: [rand_state.k2, rand_state.k3],
+      .              .         . .           . .           .   .          }
+-- line 62 ----------------------------------------
+-- line 95 ----------------------------------------
+      .              .         . .           . .           .   .      fn update(&mut self, new_data: u64) {
+      0              0         0 0           0 0           0   0          self.buffer = folded_multiply(new_data ^ self.buffer, MULTIPLE);
+      .              .         . .           . .           .   .      }
+-- line 97 ----------------------------------------
+-- line 112 ----------------------------------------
+      .              .         . .           . .           .   .          let block: [u64; 2] = new_data.convert();
+200,000 (0.3%)       0         0 0           0 0           0   0          let combined = folded_multiply(block[0] ^ self.extra_keys[0], block[1] ^ self.extra_keys[1]);
+100,000 (0.1%)       0         0 0           0 0           0   0          self.buffer = (self.buffer.wrapping_add(self.pad) ^ combined).rotate_left(ROT);
+      .              .         . .           . .           .   .      }
+-- line 115 ----------------------------------------
+-- line 176 ----------------------------------------
+      .              .         . .           . .           .   .          //A 'binary search' on sizes reduces the number of comparisons.
+      0              0         0 0           0 0           0   0          if data.len() > 8 {
+      0              0         0 0           0 0           0   0              if data.len() > 16 {
+      .              .         . .           . .           .   .                  let tail = data.read_last_u128();
+-- line 179 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: harness/variants/least-loaded-2/src/bin/profile.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr________ Dw______ D1mr____ D1mw DLmr____ DLmw____ Bcm_______ 
+
+      1 (0.0%) -1 (-0.0%) 0        0           0 0        0         0          <unknown (line 0)>
+
+-- line 36 ----------------------------------------
+      .         .         .        .           . .        .         .              /// pseudo-random order, so successive operations touch unrelated buckets.
+      0         0         0        0           0 0        0         0              fn new(n: usize, space: u64, miss: bool, value_size: usize, seed: u64) -> Self {
+      .         .         .        .           . .        .         .                  let mut s = seed;
+-- line 38 ----------------------------------------
+-- line 43 ----------------------------------------
+      .         .         .        .           . .        .         .                          } else {
+      0         0         0        0           0 0        0         0                              data::splitmix64(&mut s) % space
+      .         .         .        .           . .        .         .                          };
+-- line 45 ----------------------------------------
+-- line 50 ----------------------------------------
+      .         .         .        .           . .        .         .                  data::value(seed, &mut value);
+      0         0         0        0           0 0        0         0                  Load { keys, value }
+      0         0         0        0           0 0        0         0              }
+      .         .         .        .           . .        .         .          }
+-- line 53 ----------------------------------------
+-- line 88 ----------------------------------------
+      .         .         .        .           . .        .         .          #[inline(never)]
+      7 (0.0%)  0         8 (0.0%) 0           0 0        0         0          pub fn phase_insert_replace(cache: &Segcache, load: &Load) -> u64 {
+      1 (0.0%)  0         0        0           0 0        0         0              for k in &load.keys {
+      .         .         .        .           . .        .         .                  cache
+500,000 (0.7%)  0         0        0           0 0        0         0                      .insert(k, &load.value[..], None, Duration::ZERO)
+      .         .         .        .           . .        .         .                      .expect("insert-replace refused");
+-- line 93 ----------------------------------------
+-- line 95 ----------------------------------------
+      .         .         .        .           . .        .         .              black_box(load.keys.len() as u64)
+      7 (0.0%)  9  (0.0%) 0        0           0 0        0         0          }
+      .         .         .        .           . .        .         .          
+-- line 97 ----------------------------------------
+-- line 107 ----------------------------------------
+      .         .         .        .           . .        .         .          
+      0         0         0        0           0 0        0         0          fn main() {
+      .         .         .        .           . .        .         .              let a = Args::parse();
+-- line 109 ----------------------------------------
+-- line 112 ----------------------------------------
+      .         .         .        .           . .        .         .                  .expect("--op get-hit|get-miss|insert-fresh|insert-replace|delete");
+      0         0         0        0           0 0        0         0              let n: usize = a.num("n", 100_000);
+      .         .         .        .           . .        .         .              let prefill: u64 = a.num("prefill", 200_000);
+      0         0         0        0           0 0        0         0              let value_size: usize = a.num("value-size", 64);
+      0         0         0        0           0 0        0         0              let repeat: u32 = a.num("repeat", 1);
+      .         .         .        .           . .        .         .              let skip = a.get("skip-phase").is_some();
+-- line 117 ----------------------------------------
+-- line 118 ----------------------------------------
+      .         .         .        .           . .        .         .              let cache = Segcache::builder()
+      0         0         0        0           0 0        0         0                  .heap_size(a.num::<usize>("heap-mib", 1024) * MIB)
+      .         .         .        .           . .        .         .                  .segment_size(MIB as i32)
+-- line 120 ----------------------------------------
+-- line 129 ----------------------------------------
+      .         .         .        .           . .        .         .                  cache
+      0         0         0        0           0 0        0         0                      .insert(&data::key(i), &value[..], None, Duration::ZERO)
+      .         .         .        .           . .        .         .                      .expect("prefill refused");
+-- line 131 ----------------------------------------
+-- line 134 ----------------------------------------
+      .         .         .        .           . .        .         .              let start = Instant::now();
+      0         0         0        0           0 0        0         0              let mut done = 0u64;
+      0         0         0        0           0 0        0        -1 (-0.0%)      let phase = |f: &dyn Fn() -> u64, expected: u64| if skip { expected } else { f() };
+      0         0         0        0           0 0        0         0              for r in 0..repeat {
+      .         .         .        .           . .        .         .                  let seed = 0xC0FFEE + r as u64;
+-- line 138 ----------------------------------------
+-- line 139 ----------------------------------------
+      .         .         .        .           . .        .         .                  // Unique keys per repeat where the op needs them.
+      0         0         0        0           0 0        1 (0.0%)  0                  done += match op {
+      .         .         .        .           . .        .         .                      "get-hit" => {
+-- line 141 ----------------------------------------
+-- line 156 ----------------------------------------
+      .         .         .        .           . .        .         .                      }
+      0         0         0        0           0 0        0         0                      "insert-replace" => {
+      0         0         0        0           0 0        0         0                          let load = Load::new(n, prefill, false, value_size, seed);
+      4 (0.0%)  0         0        0           0 0        0         0                          phase(&|| phase_insert_replace(&cache, &load), n as u64)
+      .         .         .        .           . .        .         .                      }
+-- line 160 ----------------------------------------
+-- line 176 ----------------------------------------
+      .         .         .        .           . .        .         .              let elapsed = start.elapsed();
+      0         0         0        0           0 0        0         0              let ops = n as u64 * repeat as u64;
+      .         .         .        .           . .        .         .              if matches!(op, "get-hit" | "get-miss" | "delete") {
+-- line 178 ----------------------------------------
+-- line 183 ----------------------------------------
+      .         .         .        .           . .        .         .              }
+      0         0         0        0           0 0        0         0              println!(
+      .         .         .        .           . .        .         .                  "{op},{n},{repeat},{:.1}",
+      0         0         0        0           0 0        0         0                  elapsed.as_nanos() as f64 / ops as f64
+      .         .         .        .           . .        .         .              );
+      0         0         0        1 (0.0%)    0 1 (0.0%) 0         0          }
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/../../stdarch/crates/core_arch/src/aarch64/neon/generated.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/../../stdarch/crates/core_arch/src/aarch64/neon/generated.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/../../stdarch/crates/core_arch/src/arm_shared/neon/generated.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/../../stdarch/crates/core_arch/src/arm_shared/neon/generated.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/cell.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/cell.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/num/uint_macros.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/num/uint_macros.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/ptr/const_ptr.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/ptr/const_ptr.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/ptr/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/ptr/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/ptr/mut_ptr.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/ptr/mut_ptr.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/result.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/result.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/slice/cmp.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/slice/cmp.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/slice/iter/macros.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/slice/iter/macros.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: library/core/src/sync/atomic.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/0ef1bc386059596dada8fb65b50425aab2ea637a/library/core/src/sync/atomic.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: memmap2-0.9.12/src/unix.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr____________ Dw D1mr D1mw DLmr DLmw Bcm 
+
+400,000 (0.5%)       0         0    0    0    0    0   0  <unknown (line 0)>
+
+-- line 98 ----------------------------------------
+      .              .         .    .    .    .    .   .      ) -> io::Result<MmapInner> {
+      0              0         0    0    0    0    0   0          let alignment = offset % page_size() as u64;
+      .              .         .    .    .    .    .   .          let aligned_offset = offset - alignment;
+-- line 100 ----------------------------------------
+-- line 106 ----------------------------------------
+      .              .         .    .    .    .    .   .          let ptr = unsafe {
+      0              0         0    0    0    0    0   0              mmap(
+      .              .         .    .    .    .    .   .                  std::ptr::null_mut(),
+-- line 108 ----------------------------------------
+-- line 116 ----------------------------------------
+      .              .         .    .    .    .    .   .  
+      0              0         0    0    0    0    0   0          if ptr == libc::MAP_FAILED {
+      .              .         .    .    .    .    .   .              Err(io::Error::last_os_error())
+-- line 118 ----------------------------------------
+-- line 184 ----------------------------------------
+      .              .         .    .    .    .    .   .      fn as_mmap_params(&self) -> (*mut libc::c_void, usize, usize) {
+      0              0         0    0    0    0    0   0          let offset = self.ptr as usize % page_size();
+      0              0         0    0    0    0    0   0          let len = self.len + offset;
+      .              .         .    .    .    .    .   .  
+-- line 187 ----------------------------------------
+-- line 220 ----------------------------------------
+      .              .         .    .    .    .    .   .          //    method without knowing the original length.
+      0              0         0    0    0    0    0   0          if len == 0 {
+      .              .         .    .    .    .    .   .              (self.ptr, 1, 0)
+-- line 222 ----------------------------------------
+-- line 223 ----------------------------------------
+      .              .         .    .    .    .    .   .          } else {
+      0              0         0    0    0    0    0   0              let offset = self.ptr as usize % page_size();
+      .              .         .    .    .    .    .   .              // SAFETY: MmapInner guarantees that rounding `self.ptr` down to a page boundary gives the real address of the memory map.
+-- line 225 ----------------------------------------
+-- line 353 ----------------------------------------
+      .              .         .    .    .    .    .   .      ) -> io::Result<MmapInner> {
+      0              0         0    0    0    0    0   0          let stack = if stack { MAP_STACK } else { 0 };
+      0              0         0    0    0    0    0   0          let populate = if populate { MAP_POPULATE } else { 0 };
+      .              .         .    .    .    .    .   .          let hugetlb = if huge.is_some() { MAP_HUGETLB } else { 0 };
+-- line 356 ----------------------------------------
+-- line 363 ----------------------------------------
+      .              .         .    .    .    .    .   .              libc::PROT_READ | libc::PROT_WRITE,
+      0              0         0    0    0    0    0   0              libc::MAP_PRIVATE
+      .              .         .    .    .    .    .   .                  | libc::MAP_ANON
+-- line 365 ----------------------------------------
+-- line 438 ----------------------------------------
+      .              .         .    .    .    .    .   .      pub fn ptr(&self) -> *const u8 {
+400,008 (0.5%) 400,008 (2.0%)  0    0    0    0    0   0          self.ptr as *const u8
+      .              .         .    .    .    .    .   .      }
+-- line 440 ----------------------------------------
+-- line 448 ----------------------------------------
+      .              .         .    .    .    .    .   .      pub fn len(&self) -> usize {
+100,004 (0.1%) 100,004 (0.5%)  0    0    0    0    0   0          self.len
+      .              .         .    .    .    .    .   .      }
+-- line 450 ----------------------------------------
+-- line 653 ----------------------------------------
+      .              .         .    .    .    .    .   .          // in Drop impls, c.f. https://github.com/rust-lang/lang-team/issues/97
+      0              0         0    0    0    0    0   0          unsafe { libc::munmap(ptr, len as libc::size_t) };
+      .              .         .    .    .    .    .   .      }
+-- line 655 ----------------------------------------
+-- line 663 ----------------------------------------
+      .              .         .    .    .    .    .   .  
+      0              0         0    0    0    0    0   0      match PAGE_SIZE.load(Ordering::Relaxed) {
+      .              .         .    .    .    .    .   .          0 => {
+      0              0         0    0    0    0    0   0              let page_size = unsafe { libc::sysconf(libc::_SC_PAGESIZE) as usize };
+      .              .         .    .    .    .    .   .  
+-- line 667 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/keyvalue/src/item/header.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr____________ Dw____________ D1mr D1mw________ DLmr DLmw________ Bcm 
+
+      0              0              0           0     0           0     0          0  <unknown (line 0)>
+
+-- line 135 ----------------------------------------
+      .              .              .           .     .           .     .          .      pub fn klen(&self) -> u8 {
+200,004 (0.3%) 200,004 (1.0%)       0           0     0           0     0          0          self.klen
+      .              .              .           .     .           .     .          .      }
+-- line 137 ----------------------------------------
+-- line 140 ----------------------------------------
+      .              .              .           .     .           .     .          .      pub fn set_klen(&mut self, klen: u8) {
+200,000 (0.3%)       0        100,000 (1.0%)    0 6,253 (9.1%)    0 6,253 (9.1%)   0          self.klen = klen;
+      .              .              .           .     .           .     .          .      }
+-- line 142 ----------------------------------------
+-- line 147 ----------------------------------------
+      .              .              .           .     .           .     .          .      pub fn vlen(&self) -> u32 {
+100,000 (0.1%) 100,000 (0.5%)       0           0     0           0     0          0          u32::from_ne_bytes(self.vlen)
+      .              .              .           .     .           .     .          .      }
+-- line 149 ----------------------------------------
+-- line 152 ----------------------------------------
+      .              .              .           .     .           .     .          .      pub fn set_vlen(&mut self, vlen: u32) {
+100,000 (0.1%)       0        100,000 (1.0%)    0     0           0     0          0          self.vlen = vlen.to_ne_bytes();
+      .              .              .           .     .           .     .          .      }
+-- line 154 ----------------------------------------
+-- line 159 ----------------------------------------
+      .              .              .           .     .           .     .          .      pub fn olen(&self) -> u8 {
+400,004 (0.5%)       0              0           0     0           0     0          0          self.flags.load(Ordering::Relaxed) & OLEN_MASK
+      .              .              .           .     .           .     .          .      }
+-- line 161 ----------------------------------------
+-- line 182 ----------------------------------------
+      .              .              .           .     .           .     .          .          } else {
+200,000 (0.3%)       0        100,000 (1.0%)    0     0           0     0          0              *self.flags.get_mut() &= !NUMERIC_MASK;
+      .              .              .           .     .           .     .          .          }
+-- line 184 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/keyvalue/src/item/raw.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr Dw D1mr D1mw DLmr DLmw Bcm 
+
+-- line 512 ----------------------------------------
+      .         .  .    .    .    .    .   .      fn value_offset(&self) -> usize {
+100,000 (0.1%)  0  0    0    0    0    0   0          let unpadded = self.key_offset() + self.klen() as usize;
+100,000 (0.1%)  0  0    0    0    0    0   0          if self.header().is_numeric() {
+      .         .  .    .    .    .    .   .              unpadded + numeric_value_pad(self.klen() as usize, self.olen() as usize)
+-- line 515 ----------------------------------------
+-- line 525 ----------------------------------------
+      .         .  .    .    .    .    .   .          let olen = self.olen() as usize;
+600,000 (0.8%)  0  0    0    0    0    0   0          let extra = if self.header().is_numeric() {
+      .         .  .    .    .    .    .   .              numeric_value_pad(klen, olen) + 8
+-- line 527 ----------------------------------------
+-- line 530 ----------------------------------------
+      .         .  .    .    .    .    .   .          };
+300,000 (0.4%)  0  0    0    0    0    0   0          let raw = ITEM_HDR_SIZE + olen + klen + extra + self.vlen() as usize;
+200,000 (0.3%)  0  0    0    0    0    0   0          ((raw >> 3) + 1) << 3
+      .         .  .    .    .    .    .   .      }
+-- line 533 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/hashtable/mod.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr____________ Dw____________ D1mr D1mw DLmr DLmw Bcm_____ 
+
+800,000 (1.1%) 200,000 (1.0%) 500,000 (5.2%)    0    0    0    0 0         <unknown (line 0)>
+
+-- line 73 ----------------------------------------
+      .              .              .           .    .    .    . .             Location::new(
+600,000 (0.8%) 100,000 (0.5%) 100,000 (1.0%)    0    0    0    0 0                 ((seg_id.get() as u64) << location::SEG_ID_SHIFT)
+300,000 (0.4%)       0        100,000 (1.0%)    0    0    0    0 0                     | (tag << location::TAG_SHIFT)
+      .              .              .           .    .    .    . .                     | ((offset >> 3) & location::OFFSET_MASK),
+-- line 76 ----------------------------------------
+-- line 87 ----------------------------------------
+      .              .              .           .    .    .    . .             let raw = loc.as_raw();
+300,008 (0.4%)       0              0           0    0    0    0 0             let seg_id = (raw >> location::SEG_ID_SHIFT) as u32;
+      .              .              .           .    .    .    . .             let offset = ((raw & location::OFFSET_MASK) << 3) as usize;
+-- line 89 ----------------------------------------
+-- line 168 ----------------------------------------
+      .              .              .           .    .    .    . .         
+      0              0              0           0    0    0    0 0             fn verify(&self, key: &[u8], location: Location, _allow_deleted: bool) -> Verified<Self::Pin> {
+      .              .              .           .    .    .    . .                 // Range-check ahead of the pin. `acquire_item_at` opens with
+-- line 170 ----------------------------------------
+-- line 174 ----------------------------------------
+      .              .              .           .    .    .    . .                 let (seg_id, _offset) = unpack_location(location);
+200,008 (0.3%)       0              0           0    0    0    0 0                 if seg_id == 0 || seg_id as usize > self.segments.num_segments() {
+      .              .              .           .    .    .    . .                     debug_assert!(
+-- line 176 ----------------------------------------
+-- line 187 ----------------------------------------
+      .              .              .           .    .    .    . .         
+600,024 (0.8%) 100,004 (0.5%)       0           0    0    0    0 0                 match self.segments.acquire_item_at(location) {
+200,008 (0.3%) 300,012 (1.5%)       0           0    0    0    0 0                     Some((raw, guard)) => {
+      .              .              .           .    .    .    . .                         // The out-of-bounds read is closed by construction, not by
+-- line 190 ----------------------------------------
+-- line 201 ----------------------------------------
+      .              .              .           .    .    .    . .                         );
+100,004 (0.1%)       0              0           0    0    0    0 6 (0.0%)                  if raw.key() == key {
+      .              .              .           .    .    .    . .                             Verified::Match((raw, guard))
+-- line 203 ----------------------------------------
+-- line 208 ----------------------------------------
+      .              .              .           .    .    .    . .                             // STALE-LOCATION invariant block existed to resolve.
+      0              0              0           0    0    0    0 0                             Verified::DifferentKey // guard drops here
+      .              .              .           .    .    .    . .                         }
+-- line 210 ----------------------------------------
+-- line 216 ----------------------------------------
+      .              .              .           .    .    .    . .                 }
+      0              0              0           0    0    0    0 0             }
+      .              .              .           .    .    .    . .         
+-- line 218 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/hashtable/table.rs
+--------------------------------------------------------------------------------
+Ir______________ Dr____________ Dw____________ D1mr___________ D1mw DLmr__________ DLmw Bcm____________ 
+
+1,800,028 (2.5%) 100,000 (0.5%) 400,004 (4.1%)       0            0      0            0       0          <unknown (line 0)>
+
+-- line 76 ----------------------------------------
+        .              .              .              .            .      .            .       .              let mut unknown = None;
+   14,305 (0.0%)  14,305 (0.1%)       0              0            0      0            0       0              for &bucket_index in choices {
+        0              0              0              0            0      0            0       0                  match scan(bucket_index) {
+        .              .              .              .            .      .            .       .                      Lookup::Found(found) => return Lookup::Found(found),
+-- line 79 ----------------------------------------
+-- line 85 ----------------------------------------
+        .              .              .              .            .      .            .       .              }
+        0              0              0              0            0      0            0       0              match unknown {
+        .              .              .              .            .      .            .       .                  Some(location) => Lookup::Unknown(location),
+-- line 87 ----------------------------------------
+-- line 182 ----------------------------------------
+        .              .              .              .            .      .            .       .                  // 8 slots per bucket, so bucket count = 2^(power-3)
+        0              0              0              0            0      0            0       0                  let bucket_power = power - 3;
+        .              .              .              .            .      .            .       .                  assert!(
+        0              0              0              0            0      0            0       0                      bucket_power < 32,
+        .              .              .              .            .      .            .       .                      "power must be under 35: `SlotRef` addresses buckets with a u32"
+-- line 186 ----------------------------------------
+-- line 187 ----------------------------------------
+        .              .              .              .            .      .            .       .                  );
+        0              0              0              0            0      0            0       0                  let num_buckets = 1_usize << bucket_power;
+        0              0              0              0            0      0            0       0                  let mask = (num_buckets as u64) - 1;
+        .              .              .              .            .      .            .       .          
+-- line 190 ----------------------------------------
+-- line 200 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+        0              0              0              0            0      0            0       0                  Self {
+        .              .              .              .            .      .            .       .                      freq_rng: crate::Random::new(crate::rand::DEFAULT_SEED),
+-- line 202 ----------------------------------------
+-- line 219 ----------------------------------------
+        .              .              .              .            .      .            .       .                  debug_assert!(index < self.num_buckets);
+1,571,525 (2.2%) 528,610 (2.6%) 100,000 (1.0%)       0            0      0            0 100,000 (86.0%)          &self.buckets[index]
+        .              .              .              .            .      .            .       .              }
+-- line 221 ----------------------------------------
+-- line 225 ----------------------------------------
+        .              .              .              .            .      .            .       .              fn stripe(&self, hash: u64) -> &Mutex<()> {
+        0              0              0              0            0      0            0       0                  &self.insert_locks[(hash as usize) & (Self::NUM_STRIPES - 1)]
+        .              .              .              .            .      .            .       .              }
+-- line 227 ----------------------------------------
+-- line 232 ----------------------------------------
+        .              .              .              .            .      .            .       .                  debug_assert!(index < self.num_buckets);
+1,000,000 (1.4%) 400,000 (2.0%)       0              0            0      0            0       0                  let bucket_ptr = &self.buckets[index] as *const Hashbucket as *const i8;
+        .              .              .              .            .      .            .       .          
+-- line 234 ----------------------------------------
+-- line 241 ----------------------------------------
+        .              .              .              .            .      .            .       .                  unsafe {
+  200,000 (0.3%)       0              0              0            0      0            0       0                      std::arch::asm!(
+        .              .              .              .            .      .            .       .                          "prfm pldl1keep, [{ptr}]",
+-- line 243 ----------------------------------------
+-- line 268 ----------------------------------------
+        .              .              .              .            .      .            .       .                  [
+  100,000 (0.1%)       0              0              0            0      0            0       0                      (hash & mask) as usize,
+  200,000 (0.3%)       0              0              0            0      0            0       0                      ((hash ^ (hash >> 32)) & mask) as usize,
+  300,000 (0.4%)       0              0              0            0      0            0       0                      (((hash >> 16) ^ (hash << 16)) & mask) as usize,
+  400,000 (0.5%)       0              0              0            0      0            0       0                      (((hash >> 48) ^ (hash >> 8) ^ hash) & mask) as usize,
+  200,000 (0.3%)       0              0              0            0      0            0       0                      ((hash.rotate_left(17) ^ hash) & mask) as usize,
+  200,000 (0.3%)       0              0              0            0      0            0       0                      ((hash.rotate_left(31) ^ (hash >> 16)) & mask) as usize,
+  100,000 (0.1%)       0              0              0            0      0            0       0                      ((hash.wrapping_mul(0x9E3779B97F4A7C15) >> 32) & mask) as usize,
+  100,000 (0.1%)       0              0              0            0      0            0       0                      ((hash.wrapping_mul(0x517CC1B727220A95) >> 32) & mask) as usize,
+        .              .              .              .            .      .            .       .                  ]
+-- line 277 ----------------------------------------
+-- line 282 ----------------------------------------
+        .              .              .              .            .      .            .       .              fn tag_from_hash(hash: u64) -> u16 {
+  100,000 (0.1%)       0              0              0            0      0            0       0                  ((hash >> 32) & 0xFFF) as u16
+        .              .              .              .            .      .            .       .              }
+-- line 284 ----------------------------------------
+-- line 289 ----------------------------------------
+        .              .              .              .            .      .            .       .              fn probe_with_hash(&self, key: &[u8]) -> (u64, u16, [usize; MAX_CHOICES as usize]) {
+  100,000 (0.1%) 100,000 (0.5%)       0              0            0      0            0       0                  let hash = self.hash_key(key);
+  100,000 (0.1%) 100,000 (0.5%)       0              0            0      0            0       0                  (hash, Self::tag_from_hash(hash), self.bucket_indices(hash))
+        .              .              .              .            .      .            .       .              }
+-- line 292 ----------------------------------------
+-- line 311 ----------------------------------------
+        .              .              .              .            .      .            .       .                  let mut occupied = 0;
+        0              0              0              0            0      0            0       0                  for slot in &bucket.items {
+        .              .              .              .            .      .            .       .                      let packed = slot.load(Ordering::Relaxed);
+        0              0              0              0            0      0            0       0                      if packed == 0 {
+        .              .              .              .            .      .            .       .                          continue;
+-- line 315 ----------------------------------------
+-- line 316 ----------------------------------------
+        .              .              .              .            .      .            .       .                      }
+        0              0              0              0            0      0            0       0                      if Hashbucket::is_ghost(packed) {
+        .              .              .              .            .      .            .       .                          has_ghost |= Hashbucket::tag(packed) == tag;
+-- line 318 ----------------------------------------
+-- line 406 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  457,220 (0.6%) 457,220 (2.3%)       0        113,985 (47.7%)    0 71,438 (46.0%)    0       0                      std::arch::asm!(
+        .              .              .              .            .      .            .       .                          "ld1 {{{v0:v}.2d}}, [{p0}]",
+-- line 408 ----------------------------------------
+-- line 472 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  114,305 (0.2%)       0              0              0            0      0            0       0                      let r0 = (vgetq_lane_u64(v0_1, 0) >> 63) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r1 = ((vgetq_lane_u64(v0_1, 1) >> 63) << 1) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r2 = ((vgetq_lane_u64(v2_3, 0) >> 63) << 2) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r3 = ((vgetq_lane_u64(v2_3, 1) >> 63) << 3) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r4 = ((vgetq_lane_u64(v4_5, 0) >> 63) << 4) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r5 = ((vgetq_lane_u64(v4_5, 1) >> 63) << 5) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r6 = ((vgetq_lane_u64(v6_7, 0) >> 63) << 6) as u8;
+  228,610 (0.3%)       0              0              0            0      0            0       0                      let r7 = ((vgetq_lane_u64(v6_7, 1) >> 63) << 7) as u8;
+        .              .              .              .            .      .            .       .          
+  914,440 (1.3%)       0              0              0            0      0            0       0                      r0 | r1 | r2 | r3 | r4 | r5 | r6 | r7
+        .              .              .              .            .      .            .       .                  }
+-- line 483 ----------------------------------------
+-- line 549 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  114,313 (0.2%)       0              0              0            0      0            0  16,255 (14.0%)          while mask != 0 {
+        .              .              .              .            .      .            .       .                      let slot_index = mask.trailing_zeros() as usize;
+-- line 551 ----------------------------------------
+-- line 553 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  100,004 (0.1%)       0              0              0            0      0            0       0                      let packed = bucket.items[slot_index].load(Ordering::Acquire);
+        .              .              .              .            .      .            .       .          
+  200,008 (0.3%)       0              0              0            0      0            0       0                      if packed == 0 || Hashbucket::is_ghost(packed) {
+        .              .              .              .            .      .            .       .                          continue;
+-- line 557 ----------------------------------------
+-- line 601 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+        4 (0.0%)       0              0              0            0      0            0       0                  match unknown {
+        .              .              .              .            .      .            .       .                      Some(location) => Lookup::Unknown(location),
+-- line 603 ----------------------------------------
+-- line 749 ----------------------------------------
+        .              .              .              .            .      .            .       .              /// `None` if this bucket holds no live entry for the key.
+        0              0              0              0            0      0            0       0              fn try_replace_existing<V: KeyVerifier>(
+        .              .              .              .            .      .            .       .                  &self,
+-- line 751 ----------------------------------------
+-- line 764 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+        0              0              0              0            0      0            0       0                          if packed == 0 || Hashbucket::tag(packed) != tag || Hashbucket::is_ghost(packed) {
+        .              .              .              .            .      .            .       .                              break; // empty, or not a live entry with our tag — next slot
+-- line 766 ----------------------------------------
+-- line 776 ----------------------------------------
+        .              .              .              .            .      .            .       .                          // guarded was exact.
+        0              0              0              0            0      0            0       0                          match verifier.verify(key, location, true) {
+        .              .              .              .            .      .            .       .                              Verified::Match(_pin) => {}
+-- line 778 ----------------------------------------
+-- line 804 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+        0              0              0              0            0      0            0       0                  match unknown {
+        .              .              .              .            .      .            .       .                      Some(location) => Lookup::Unknown(location),
+-- line 806 ----------------------------------------
+-- line 808 ----------------------------------------
+        .              .              .              .            .      .            .       .                  }
+        0              0              0              0            0      0            0       0              }
+        .              .              .              .            .      .            .       .          
+-- line 810 ----------------------------------------
+-- line 864 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+        0              0              0              0            0      0            0       0                      if packed == 0 {
+        0              0              0              0            0      0            0       0                          match bucket.items[slot_index].compare_exchange(
+        .              .              .              .            .      .            .       .                              0,
+-- line 867 ----------------------------------------
+-- line 899 ----------------------------------------
+        .              .              .              .            .      .            .       .                  false // bucket full of live entries
+        0              0              0              0            0      0            0       0              }
+        .              .              .              .            .      .            .       .          
+-- line 901 ----------------------------------------
+-- line 1194 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  300,000 (0.4%)       0              0              0            0      0            0       0                      if packed == 0 || Hashbucket::is_ghost(packed) {
+        .              .              .              .            .      .            .       .                          return false;
+-- line 1196 ----------------------------------------
+-- line 1197 ----------------------------------------
+        .              .              .              .            .      .            .       .                      }
+  300,000 (0.4%)       0              0              0            0      0            0       0                      if Hashbucket::tag(packed) != slot.tag || Hashbucket::location(packed) != old_location {
+        .              .              .              .            .      .            .       .                          return false;
+-- line 1199 ----------------------------------------
+-- line 1201 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  100,000 (0.1%)       0              0              0            0      0            0       0                      let freq = if preserve_freq {
+        .              .              .              .            .      .            .       .                          Hashbucket::freq(packed)
+-- line 1203 ----------------------------------------
+-- line 1208 ----------------------------------------
+        .              .              .              .            .      .            .       .          
+  200,000 (0.3%)       0              0              0            0      0            0       0                      match bucket.items[slot_index].compare_exchange(
+        .              .              .              .            .      .            .       .                          packed,
+-- line 1210 ----------------------------------------
+-- line 1261 ----------------------------------------
+        .              .              .              .            .      .            .       .              ) -> Lookup<Hit<V::Pin>> {
+  400,000 (0.5%)       0        800,000 (8.2%)       0            0      0            0       0                  let (tag, buckets) = self.probe(key);
+  100,000 (0.1%) 100,000 (0.5%)       0              0            0      0            0       0                  let choices = &buckets[..self.num_choices as usize];
+        .              .              .              .            .      .            .       .          
+  200,000 (0.3%) 200,000 (1.0%)       0              0            0      0            0       0                  for &bucket_index in choices {
+        .              .              .              .            .      .            .       .                      self.prefetch_bucket(bucket_index);
+-- line 1266 ----------------------------------------
+-- line 1289 ----------------------------------------
+        .              .              .              .            .      .            .       .              ) -> Result<Insert, ()> {
+        0              0              0              0            0      0            0       0                  let (hash, tag, buckets) = self.probe_with_hash(key);
+        0              0              0              0            0      0            0       0                  let choices = &buckets[..self.num_choices as usize];
+        .              .              .              .            .      .            .       .          
+-- line 1292 ----------------------------------------
+-- line 1303 ----------------------------------------
+        .              .              .              .            .      .            .       .                  // restart), and taking a lock to reach it is pure waste.
+        0              0              0              0            0      0            0       0                  match fold_choices(choices, |bucket_index| {
+        0              0              0              0            0      0            0       0                      self.try_replace_existing(bucket_index, tag, key, new_packed, verifier)
+        .              .              .              .            .      .            .       .                  }) {
+-- line 1306 ----------------------------------------
+-- line 1334 ----------------------------------------
+        .              .              .              .            .      .            .       .                  match fold_choices(choices, |bucket_index| {
+        0              0              0              0            0      0            0       0                      self.try_replace_existing(bucket_index, tag, key, new_packed, verifier)
+        .              .              .              .            .      .            .       .                  }) {
+-- line 1336 ----------------------------------------
+-- line 1352 ----------------------------------------
+        .              .              .              .            .      .            .       .                  // it holds a matching-tag ghost, and how many live entries it has.
+        0              0              0              0            0      0            0       0                  let mut live = [0usize; MAX_CHOICES as usize];
+        .              .              .              .            .      .            .       .                  let mut ghost_at = None;
+-- line 1354 ----------------------------------------
+-- line 1356 ----------------------------------------
+        .              .              .              .            .      .            .       .                      let (has_ghost, occupied) = self.scan_for_claim(bucket_index, tag);
+        0              0              0              0            0      0            0       0                      live[i] = occupied;
+        0              0              0              0            0      0            0       0                      if has_ghost && ghost_at.is_none() {
+        .              .              .              .            .      .            .       .                          ghost_at = Some(bucket_index);
+-- line 1359 ----------------------------------------
+-- line 1361 ----------------------------------------
+        .              .              .              .            .      .            .       .                  }
+        0              0              0              0            0      0            0       0                  if let Some(bucket_index) = ghost_at {
+        .              .              .              .            .      .            .       .                      if self.try_take_matching_ghost(bucket_index, tag, new_packed) {
+-- line 1363 ----------------------------------------
+-- line 1366 ----------------------------------------
+        .              .              .              .            .      .            .       .                  }
+        0              0              0              0            0      0            0       0                  let mut order = [0usize; MAX_CHOICES as usize];
+        .              .              .              .            .      .            .       .                  order[..choices.len()].copy_from_slice(choices);
+-- line 1368 ----------------------------------------
+-- line 1369 ----------------------------------------
+        .              .              .              .            .      .            .       .                  let order = &mut order[..choices.len()];
+        0              0              0              0            0      0            0       0                  if order.len() == 2 {
+        0              0              0              0            0      0            0       0                      if live[1] < live[0] {
+        .              .              .              .            .      .            .       .                          order.swap(0, 1);
+-- line 1372 ----------------------------------------
+-- line 1385 ----------------------------------------
+        .              .              .              .            .      .            .       .                  }
+        0              0              0              0            0      0            0       0                  for &bucket_index in order.iter() {
+        0              0              0              0            0      0            0       0                      if self.try_claim_free_slot(bucket_index, new_packed) {
+        .              .              .              .            .      .            .       .                          return Ok(Insert::Created);
+-- line 1388 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/segcache.rs
+--------------------------------------------------------------------------------
+Ir______________ Dr______________ Dw_______________ D1mr____ D1mw____ DLmr____ DLmw____ Bcm_____ 
+
+  500,000 (0.7%)   200,000 (1.0%)   100,000  (1.0%) 0        0        0        0        0         <unknown (line 0)>
+
+-- line 609 ----------------------------------------
+        .                .                .         .        .        .        .        .             /// ```
+3,200,000 (4.4%)         0        2,000,000 (20.6%) 0        2 (0.0%) 0        2 (0.0%) 0             pub fn insert<'a, T: Into<Value<'a>>>(
+        .                .                .         .        .        .        .        .                 &self,
+-- line 611 ----------------------------------------
+-- line 693 ----------------------------------------
+        .                .                .         .        .        .        .        .                             Lookup::Found((old_location, slot)) => {
+  200,000 (0.3%)         0                0         0        0        0        0        0                                 if old_location == new_location {
+        .                .                .         .        .        .        .        .                                     // Already published (a prior loop iteration's
+-- line 695 ----------------------------------------
+-- line 704 ----------------------------------------
+        .                .                .         .        .        .        .        .                                 let (old_seg_raw, _old_offset) = unpack_location(old_location);
+  100,000 (0.1%)         0                0         0        0        0        0        0                                 let Some(old_seg_id) = NonZeroU32::new(old_seg_raw) else {
+        .                .                .         .        .        .        .        .                                     // Not expected — `lookup_slot` only returns real
+-- line 706 ----------------------------------------
+-- line 749 ----------------------------------------
+        .                .                .         .        .        .        .        .                                 //   bounded spin, rollback and wait handle that case.
+  500,000 (0.7%)         0                0         0        0        0        0        0                                 let Some(pin) = self.segments.try_pin_remover(old_seg_id) else {
+        .                .                .         .        .        .        .        .                                     if old_seg_id == new_seg || backoff.is_completed() {
+-- line 751 ----------------------------------------
+-- line 771 ----------------------------------------
+        .                .                .         .        .        .        .        .                                     // incarnation that is already gone.
+  800,000 (1.1%)   100,000 (0.5%)         0         0        0        0        0        0                                     let _ = self.segments.remove_at(
+        .                .                .         .        .        .        .        .                                         old_location,
+-- line 773 ----------------------------------------
+-- line 776 ----------------------------------------
+        .                .                .         .        .        .        .        .                                         pin,
+  100,000 (0.1%)   100,000 (0.5%)         0         0        0        0        0        0                                     );
+        .                .                .         .        .        .        .        .                                     return Ok(());
+-- line 778 ----------------------------------------
+-- line 857 ----------------------------------------
+        .                .                .         .        .        .        .        .                 }
+  800,000 (1.1%) 1,200,000 (6.0%)         0         0        0        0        0        0             }
+        .                .                .         .        .        .        .        .         
+-- line 859 ----------------------------------------
+-- line 972 ----------------------------------------
+        .                .                .         .        .        .        .        .                 let mut target_pool = SegmentPool::Main;
+  300,000 (0.4%)         0                0         0        0        0        0        3 (0.0%)          if matches!(self.segments.evict_policy(), Policy::S3Fifo { .. }) {
+        .                .                .         .        .        .        .        .                     let hash = {
+-- line 974 ----------------------------------------
+-- line 991 ----------------------------------------
+        .                .                .         .        .        .        .        .                 loop {
+  200,000 (0.3%)   100,000 (0.5%)         0         0        0        0        0        0                     match self
+        .                .                .         .        .        .        .        .                         .ttl_buckets
+  100,000 (0.1%)   100,000 (0.5%)         0         1 (0.0%) 0        1 (0.0%) 0        0                         .get_bucket(ttl)
+  400,000 (0.5%)         0                0         0        0        0        0        0                         .reserve(size, &self.segments)
+        .                .                .         .        .        .        .        .                     {
+  300,000 (0.4%)   400,000 (2.0%)         0         0        0        0        0        0                         Ok(mut reserved_item) => {
+        .                .                .         .        .        .        .        .                             reserved_item.define(key, value, optional);
+-- line 998 ----------------------------------------
+-- line 1005 ----------------------------------------
+        .                .                .         .        .        .        .        .                             // sees no writers, so they read this label.
+  200,000 (0.3%)         0                0         0        0        0        0        0                             if target_pool == SegmentPool::Admission
+        .                .                .         .        .        .        .        .                                 && self
+-- line 1007 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/segments/header.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr_______ Dw_______ D1mr D1mw DLmr DLmw Bcm_______ 
+
+200,018 (0.3%)  9 (0.0%)  0           0    0    0    0  0          <unknown (line 0)>
+
+-- line 283 ----------------------------------------
+      .         .         .           .    .    .    .  .                      let leaked_bytes = self.live_bytes.load(Ordering::Relaxed) - initial_offset;
+     18 (0.0%)  0         0           0    0    0    0  0                      if leaked_items > 0 {
+      .         .         .           .    .    .    .  .                          crate::ITEM_CURRENT.sub(leaked_items as _);
+-- line 285 ----------------------------------------
+-- line 286 ----------------------------------------
+      .         .         .           .    .    .    .  .                      }
+     18 (0.0%)  0         0           0    0    0    0  0                      if leaked_bytes > 0 {
+      .         .         .           .    .    .    .  .                          crate::ITEM_CURRENT_BYTES.sub(leaked_bytes as _);
+-- line 288 ----------------------------------------
+-- line 291 ----------------------------------------
+      .         .         .           .    .    .    .  .                      let dead_bytes = self.dead_bytes.swap(0, Ordering::Relaxed);
+     18 (0.0%)  0         0           0    0    0    0  0                      if dead_items > 0 {
+      .         .         .           .    .    .    .  .                          crate::ITEM_DEAD.sub(dead_items as _);
+-- line 293 ----------------------------------------
+-- line 294 ----------------------------------------
+      .         .         .           .    .    .    .  .                      }
+     18 (0.0%)  0         0           0    0    0    0  0                      if dead_bytes > 0 {
+      .         .         .           .    .    .    .  .                          crate::ITEM_DEAD_BYTES.sub(dead_bytes as _);
+-- line 296 ----------------------------------------
+-- line 347 ----------------------------------------
+      .         .         .           .    .    .    .  .                  let meta = Metadata::unpack(current);
+     63 (0.0%)  0         0           0    0    0    0  0                  if meta.state != expected_state {
+      .         .         .           .    .    .    .  .                      return false;
+-- line 349 ----------------------------------------
+-- line 405 ----------------------------------------
+      .         .         .           .    .    .    .  .              /// election loser, decoupling the counter from segment lifecycles.
+     36 (0.0%)  0        27 (0.0%)    0    0    0    0  0              pub fn try_reserve(&self) -> bool {
+      9 (0.0%)  0         0           0    0    0    0  0                  if !self.cas_metadata(
+      .         .         .           .    .    .    .  .                      State::Free,
+-- line 408 ----------------------------------------
+-- line 435 ----------------------------------------
+      .         .         .           .    .    .    .  .                  true
+     36 (0.0%) 27 (0.0%)  0           0    0    0    0  0              }
+      .         .         .           .    .    .    .  .          
+-- line 437 ----------------------------------------
+-- line 521 ----------------------------------------
+      .         .         .           .    .    .    .  .                  let current = self.metadata.load(Ordering::SeqCst);
+200,008 (0.3%)  0         0           0    0    0    0  0                  if Metadata::unpack(current).state != State::AwaitingRelease {
+      .         .         .           .    .    .    .  .                      return false;
+-- line 523 ----------------------------------------
+-- line 696 ----------------------------------------
+      .         .         .           .    .    .    .  .              pub fn try_pin_writer(&self) -> bool {
+200,018 (0.3%)  0         0           0    0    0    0  2  (0.0%)          if !self.metadata(Ordering::Acquire).state.is_writable() {
+      .         .         .           .    .    .    .  .                      return false;
+-- line 698 ----------------------------------------
+-- line 700 ----------------------------------------
+      .         .         .           .    .    .    .  .                  self.active_writers.fetch_add(1, Ordering::SeqCst);
+200,018 (0.3%)  0         0           0    0    0    0  0                  if !self.metadata(Ordering::SeqCst).state.is_writable() {
+      .         .         .           .    .    .    .  .                      // Backout uses Release, not SeqCst (the design spec's pseudocode
+-- line 702 ----------------------------------------
+-- line 737 ----------------------------------------
+      .         .         .           .    .    .    .  .              fn state_is_removable(state: State) -> bool {
+600,000 (0.8%)  0         0           0    0    0    0  0                  matches!(state, State::Sealed | State::Live)
+      .         .         .           .    .    .    .  .              }
+-- line 739 ----------------------------------------
+-- line 823 ----------------------------------------
+      .         .         .           .    .    .    .  .                      }
+200,000 (0.3%)  0         0           0    0    0    0 -1 (-0.0%)              match self.write_offset.compare_exchange(
+      .         .         .           .    .    .    .  .                          current,
+-- line 825 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segment.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr____________ Dw____________ D1mr D1mw DLmr DLmw Bcm_____ 
+
+100,000 (0.1%)       0              0           0    0    0    0 0         <unknown (line 0)>
+
+-- line 155 ----------------------------------------
+      .              .              .           .    .    .    . .             pub(crate) fn max_item_offset(&self) -> usize {
+200,000 (0.3%)       0              0           0    0    0    0 2 (0.0%)          if self.write_offset() >= ITEM_HDR_SIZE as i32 {
+400,000 (0.5%) 100,000 (0.5%)       0           0    0    0    0 0                     std::cmp::min(self.write_offset() as usize, self.data.len()) - ITEM_HDR_SIZE
+      .              .              .           .    .    .    . .                 } else if cfg!(feature = "integrity") {
+-- line 158 ----------------------------------------
+-- line 239 ----------------------------------------
+      .              .              .           .    .    .    . .             pub fn write_offset(&self) -> i32 {
+100,000 (0.1%) 100,000 (0.5%)       0           0    0    0    0 0                 self.header.write_offset()
+      .              .              .           .    .    .    . .             }
+-- line 241 ----------------------------------------
+-- line 327 ----------------------------------------
+      .              .              .           .    .    .    . .             /// charge back off, because a moved item did not die.
+200,000 (0.3%)       0        200,000 (2.1%)    0    0    0    0 0             pub(crate) fn remove_item_at(&self, offset: usize) {
+      .              .              .           .    .    .    . .                 let item = self.get_item_at(offset).unwrap();
+-- line 329 ----------------------------------------
+-- line 334 ----------------------------------------
+      .              .              .           .    .    .    . .                     ITEM_CURRENT.decrement();
+100,000 (0.1%)       0              0           0    0    0    0 0                     ITEM_CURRENT_BYTES.sub(item_size as _);
+      .              .              .           .    .    .    . .                     ITEM_DEAD.increment();
+-- line 336 ----------------------------------------
+-- line 342 ----------------------------------------
+      .              .              .           .    .    .    . .                 self.header.incr_dead_item(item_size);
+100,000 (0.1%)       0              0           0    0    0    0 1 (0.0%)          assert!(self.live_bytes() >= 0);
+100,000 (0.1%)       0              0           0    0    0    0 0                 assert!(self.live_items() >= 0);
+      .              .              .           .    .    .    . .         
+-- line 345 ----------------------------------------
+-- line 346 ----------------------------------------
+      .              .              .           .    .    .    . .                 self.check_magic();
+200,000 (0.3%) 200,000 (1.0%)       0           0    0    0    0 0             }
+      .              .              .           .    .    .    . .         
+-- line 348 ----------------------------------------
+-- line 351 ----------------------------------------
+      .              .              .           .    .    .    . .             pub(crate) fn get_item_at(&self, offset: usize) -> Option<RawItem> {
+200,000 (0.3%)       0              0           0    0    0    0 0                 assert!(offset <= self.max_item_offset());
+      .              .              .           .    .    .    . .                 Some(RawItem::from_ptr(
+100,000 (0.1%) 100,000 (0.5%)       0           0    0    0    0 0                     (self.data.as_ptr() as *mut u8).wrapping_add(offset),
+      .              .              .           .    .    .    . .                 ))
+-- line 355 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/segments/segments.rs
+--------------------------------------------------------------------------------
+Ir______________ Dr______________ Dw_______________ D1mr____ D1mw DLmr____ DLmw Bcm_____ 
+
+  800,012 (1.1%)         0          100,000  (1.0%) 0           0 0           0 0         <unknown (line 0)>
+
+-- line 142 ----------------------------------------
+        .                .                .         .           . .           . .                 let segment_size = builder.segment_size;
+        0                0                0         0           0 0           0 0                 let segments = builder.heap_size / (segment_size as usize);
+        .                .                .         .           . .           . .         
+-- line 144 ----------------------------------------
+-- line 161 ----------------------------------------
+        .                .                .         .           . .           . .                 // when "max id + tag 63 + last offset" is reachable.
+        0                0                0         0           0 0           0 0                 if segments > Location::MAX_SEGMENTS as usize {
+        .                .                .         .           . .           . .                     return Err(SegmentsError::TooManySegments {
+-- line 163 ----------------------------------------
+-- line 181 ----------------------------------------
+        .                .                .         .           . .           . .                 }
+        0                0                0         0           0 0           0 0                 let headers = headers.into_boxed_slice();
+        .                .                .         .           . .           . .         
+-- line 183 ----------------------------------------
+-- line 184 ----------------------------------------
+        .                .                .         .           . .           . .                 // Allocate the data heap via anonymous mmap.
+        0                0                0         0           0 0           0 0                 let heap_size = segments * segment_size as usize;
+        0                0                0         0           0 0           0 0                 let mut data = MmapOptions::new().populate().len(heap_size).map_anon()?;
+        .                .                .         .           . .           . .         
+-- line 187 ----------------------------------------
+-- line 206 ----------------------------------------
+        .                .                .         .           . .           . .         
+        0                0                0         0           0 0           0 0                     let mut segment = Segment::from_raw_parts(&headers[idx], &mut data[begin..end]);
+        .                .                .         .           . .           . .                     segment.init();
+-- line 208 ----------------------------------------
+-- line 229 ----------------------------------------
+        .                .                .         .           . .           . .         
+        0                0                0         0           0 0           0 0                 Ok(Self {
+        .                .                .         .           . .           . .                     headers,
+-- line 231 ----------------------------------------
+-- line 237 ----------------------------------------
+        .                .                .         .           . .           . .                     spare_count: crate::sync::AtomicU32::new(spare_capacity),
+        0                0                0         0           0 0           0 0                     data,
+        .                .                .         .           . .           . .                     policy: evict_policy,
+-- line 239 ----------------------------------------
+-- line 282 ----------------------------------------
+        .                .                .         .           . .           . .             pub fn evict_policy(&self) -> Policy {
+  100,000 (0.1%)   100,000 (0.5%)         0         1 (0.0%)    0 1 (0.0%)    0 0                 self.policy
+        .                .                .         .           . .           . .             }
+-- line 284 ----------------------------------------
+-- line 288 ----------------------------------------
+        .                .                .         .           . .           . .             pub fn segment_size(&self) -> i32 {
+  200,004 (0.3%)   200,004 (1.0%)         0         0           0 0           0 0                 self.segment_size
+        .                .                .         .           . .           . .             }
+-- line 290 ----------------------------------------
+-- line 303 ----------------------------------------
+        .                .                .         .           . .           . .             pub(crate) fn num_segments(&self) -> usize {
+  100,004 (0.1%)   100,004 (0.5%)         0         0           0 0           0 0                 self.cap as usize
+        .                .                .         .           . .           . .             }
+-- line 305 ----------------------------------------
+-- line 316 ----------------------------------------
+        .                .                .         .           . .           . .                 let (seg_id, offset) = unpack_location(location);
+  400,016 (0.5%)   100,004 (0.5%)         0         0           0 0           0 0                 if seg_id == 0 || seg_id > self.cap {
+        .                .                .         .           . .           . .                     return;
+-- line 318 ----------------------------------------
+-- line 319 ----------------------------------------
+        .                .                .         .           . .           . .                 }
+  300,012 (0.4%)   100,004 (0.5%)         0         0           0 0           0 0                 let byte_offset = self.segment_size as usize * (seg_id as usize - 1) + offset;
+  200,008 (0.3%)         0                0         0           0 0           0 0                 if byte_offset >= self.data.len() {
+        .                .                .         .           . .           . .                     return;
+-- line 322 ----------------------------------------
+-- line 334 ----------------------------------------
+        .                .                .         .           . .           . .                 unsafe {
+  100,004 (0.1%)         0                0         0           0 0           0 0                     std::arch::asm!(
+        .                .                .         .           . .           . .                         "prfm pldl1keep, [{ptr}]",
+-- line 336 ----------------------------------------
+-- line 418 ----------------------------------------
+        .                .                .         .           . .           . .             pub(crate) fn header(&self, id: NonZeroU32) -> &SegmentHeader {
+2,000,261 (2.7%)   600,090 (3.0%)         0         0           0 0           0 1 (0.0%)          &self.headers[id.get() as usize - 1]
+        .                .                .         .           . .           . .             }
+-- line 420 ----------------------------------------
+-- line 497 ----------------------------------------
+        .                .                .         .           . .           . .             #[inline]
+  100,000 (0.1%)         0                0         0           0 0           0 2 (0.0%)      pub(crate) fn resolve(&self, location: Location) -> Option<(NonZeroU32, usize)> {
+        .                .                .         .           . .           . .                 let (seg_id, offset) = unpack_location(location);
+-- line 499 ----------------------------------------
+-- line 500 ----------------------------------------
+        .                .                .         .           . .           . .                 let seg_id = NonZeroU32::new(seg_id)?;
+  300,000 (0.4%)   100,000 (0.5%)         0         0           0 0           0 2 (0.0%)          if seg_id.get() > self.cap {
+        .                .                .         .           . .           . .                     return None;
+-- line 502 ----------------------------------------
+-- line 533 ----------------------------------------
+        .                .                .         .           . .           . .             fn tag_matches_header(location: Location, header: &SegmentHeader) -> bool {
+  400,008 (0.5%)         0                0         0           0 0           0 0                 location.tag() == crate::hashtable::location::tag_for_generation(header.generation())
+        .                .                .         .           . .           . .             }
+-- line 535 ----------------------------------------
+-- line 572 ----------------------------------------
+        .                .                .         .           . .           . .             /// `try_acquire_reader` above and never reaches the comparison at all.
+  400,016 (0.5%)         0          400,016  (4.1%) 0           0 0           0 0             pub(crate) fn acquire_item_at(
+        .                .                .         .           . .           . .                 &self,
+-- line 574 ----------------------------------------
+-- line 578 ----------------------------------------
+        .                .                .         .           . .           . .                 let seg_id = NonZeroU32::new(seg_id)?;
+  300,012 (0.4%)   100,004 (0.5%)         0         0           0 0           0 0                 assert!(seg_id.get() <= self.cap);
+  700,028 (1.0%)   200,008 (1.0%)         0         0           0 0           0 0                 let header = &self.headers[seg_id.get() as usize - 1];
+        .                .                .         .           . .           . .         
+-- line 581 ----------------------------------------
+-- line 619 ----------------------------------------
+        .                .                .         .           . .           . .                 // `Segments` while the guard is alive.
+  100,004 (0.1%)   100,004 (0.5%)         0         0           0 0           0 0                 let guard = unsafe { SegmentGuard::new(header, &*self.free_queue) };
+        .                .                .         .           . .           . .         
+-- line 621 ----------------------------------------
+-- line 629 ----------------------------------------
+        .                .                .         .           . .           . .                 // `tag_matches_header`).
+  100,004 (0.1%)         0                0         0           0 0           0 0                 if !Self::tag_matches_header(location, header) {
+        .                .                .         .           . .           . .                     return None;
+-- line 631 ----------------------------------------
+-- line 635 ----------------------------------------
+        .                .                .         .           . .           . .                 let raw = RawItem::from_ptr(unsafe { (self.data.as_ptr() as *mut u8).add(byte_offset) });
+  300,012 (0.4%)         0          400,016  (4.1%) 0           0 0           0 0                 Some((raw, guard))
+  400,016 (0.5%)   400,016 (2.0%)         0         0           0 0           0 0             }
+        .                .                .         .           . .           . .         
+-- line 638 ----------------------------------------
+-- line 665 ----------------------------------------
+        .                .                .         .           . .           . .         
+  100,009 (0.1%)   100,009 (0.5%)         0         0           0 0           0 0                 let offset = match header.try_reserve_space(size, self.segment_size) {
+        .                .                .         .           . .           . .                     Some(offset) => offset,
+-- line 667 ----------------------------------------
+-- line 676 ----------------------------------------
+        .                .                .         .           . .           . .                     ITEM_CURRENT.increment();
+  100,000 (0.1%)         0                0         0           0 0           0 0                     ITEM_CURRENT_BYTES.add(size as _);
+        .                .                .         .           . .           . .                     ITEM_ALLOCATE.increment();
+-- line 678 ----------------------------------------
+-- line 681 ----------------------------------------
+        .                .                .         .           . .           . .                 let byte_offset =
+  200,000 (0.3%)   100,000 (0.5%)         0         0           0 0           0 0                     self.segment_size as usize * (seg_id.get() as usize - 1) + offset as usize;
+        .                .                .         .           . .           . .                 // SAFETY: `header()` above bounds-checks seg_id via slice
+-- line 683 ----------------------------------------
+-- line 705 ----------------------------------------
+        .                .                .         .           . .           . .             /// reassigned after construction).
+  300,000 (0.4%)         0          200,000  (2.1%) 0           0 0           0 0             pub(crate) fn try_pin_remover(&self, seg_id: NonZeroU32) -> Option<RemoverPin> {
+        .                .                .         .           . .           . .                 let header = self.header(seg_id);
+-- line 707 ----------------------------------------
+-- line 713 ----------------------------------------
+        .                .                .         .           . .           . .                 }
+  300,000 (0.4%)   200,000 (1.0%)         0         0           0 0           0 0             }
+        .                .                .         .           . .           . .         
+-- line 715 ----------------------------------------
+-- line 760 ----------------------------------------
+        .                .                .         .           . .           . .         
+  100,000 (0.1%)   100,000 (0.5%)         0         0           0 0           0 0                     let seg_start = self.segment_size as usize * idx;
+        .                .                .         .           . .           . .         
+-- line 762 ----------------------------------------
+-- line 1000 ----------------------------------------
+        .                .                .         .           . .           . .                 loop {
+       36 (0.0%)         9 (0.0%)         0         0           0 0           0 0                     match self.free_queue.steal() {
+        .                .                .         .           . .           . .                         crossbeam_deque::Steal::Retry => continue,
+-- line 1002 ----------------------------------------
+-- line 1006 ----------------------------------------
+        .                .                .         .           . .           . .                             let id = NonZeroU32::new(raw)?;
+       81 (0.0%)        18 (0.0%)         0         0           0 0           0 0                             if self.headers[raw as usize - 1].try_reserve() {
+        .                .                .         .           . .           . .                                 #[cfg(feature = "metrics")]
+-- line 1008 ----------------------------------------
+-- line 1636 ----------------------------------------
+        .                .                .         .           . .           . .             /// has anything left to do about it.
+  700,000 (1.0%)         0        1,000,000 (10.3%) 0           0 0           0 0             pub(crate) fn remove_at(
+        .                .                .         .           . .           . .                 &self,
+-- line 1638 ----------------------------------------
+-- line 1653 ----------------------------------------
+        .                .                .         .           . .           . .                 {
+  200,000 (0.3%)         0          300,000  (3.1%) 0           0 0           0 0                     let segment = self.segment(seg_id)?;
+  200,000 (0.3%)         0                0         0           0 0           0 0                     segment.remove_item_at(offset);
+        .                .                .         .           . .           . .                     // Release the remover pin now — before any `chain_lock` below.
+-- line 1656 ----------------------------------------
+-- line 1660 ----------------------------------------
+        .                .                .         .           . .           . .                     // immediately via the drain/condemn protocol.
+  100,000 (0.1%)         0                0         0           0 0           0 2 (0.0%)              if segment.live_items() == 0 && segment.can_evict() {
+        .                .                .         .           . .           . .                         // LOCK: bucket-chain — the empty-segment drain
+-- line 1662 ----------------------------------------
+-- line 1679 ----------------------------------------
+        .                .                .         .           . .           . .                 // low watermark. If so, perform a no-evict merge (compaction only).
+  300,000 (0.4%)   100,000 (0.5%)         0         0           0 0           0 2 (0.0%)          if let Policy::Merge { .. } = self.policy {
+        .                .                .         .           . .           . .                     let target_ratio = self.evict.lock().unwrap().compact_ratio();
+-- line 1681 ----------------------------------------
+-- line 1710 ----------------------------------------
+        .                .                .         .           . .           . .                 Ok(())
+  800,000 (1.1%) 1,000,000 (5.0%)         0         0           0 0           0 0             }
+        .                .                .         .           . .           . .         
+-- line 1712 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/segments/state.rs
+--------------------------------------------------------------------------------
+Ir______________ Dr Dw____________ D1mr D1mw DLmr DLmw Bcm 
+
+       18 (0.0%)  0       0           0    0    0    0   0  <unknown (line 0)>
+
+-- line 114 ----------------------------------------
+        .         .       .           .    .    .    .   .      pub fn from_u8(value: u8) -> Self {
+2,100,225 (2.9%)  0 700,066 (7.2%)    0    0    0    0   0          match value {
+        .         .       .           .    .    .    .   .              0 => State::Free,
+-- line 116 ----------------------------------------
+-- line 140 ----------------------------------------
+        .         .       .           .    .    .    .   .      pub fn is_readable(self) -> bool {
+  600,024 (0.8%)  0       0           0    0    0    0   0          matches!(self, State::Live | State::Sealed | State::Relinking)
+        .         .       .           .    .    .    .   .      }
+-- line 142 ----------------------------------------
+-- line 200 ----------------------------------------
+        .         .       .           .    .    .    .   .          debug_assert!(prev <= Self::LINK_MASK, "segment id exceeds 24 bits");
+       72 (0.0%)  0       0           0    0    0    0   0          ((self.tag as u64) << Self::TAG_SHIFT) | ((self.state as u64) << 48) | (prev << 24) | next
+        .         .       .           .    .    .    .   .      }
+-- line 202 ----------------------------------------
+-- line 209 ----------------------------------------
+        .         .       .           .    .    .    .   .              prev: NonZeroU32::new(((packed >> 24) & Self::LINK_MASK) as u32),
+1,400,132 (1.9%)  0       0           0    0    0    0   0              state: State::from_u8(((packed >> 48) & 0xFF) as u8),
+        .         .       .           .    .    .    .   .              tag: ((packed >> Self::TAG_SHIFT) & 0xFF) as u8,
+-- line 211 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: repos/cache-rs-least-loaded-2/crates/segcache/src/ttl_buckets/ttl_bucket.rs
+--------------------------------------------------------------------------------
+Ir____________ Dr____________ Dw____________ D1mr D1mw____ DLmr DLmw____ Bcm_____ 
+
+700,054 (1.0%)       0        100,027 (1.0%)    0 0           0 0        0         <unknown (line 0)>
+
+-- line 87 ----------------------------------------
+      .              .              .           . .           . .        .                     chain_lock: Box::new(crate::sync::Mutex::new(())),
+      0              0              0           0 0           0 0        0                     _pad: [0; 36],
+      .              .              .           . .           . .        .                 }
+-- line 89 ----------------------------------------
+-- line 318 ----------------------------------------
+      .              .              .           . .           . .        .             /// never sealed.
+    108 (0.0%)       0            108 (0.0%)    0 0           0 0        0             fn try_expand(
+      .              .              .           . .           . .        .                 &self,
+-- line 320 ----------------------------------------
+-- line 333 ----------------------------------------
+      .              .              .           . .           . .        .                     .header(id)
+      9 (0.0%)       9 (0.0%)       0           0 0           0 0        0                     .set_ttl(Duration::from_secs(self.ttl as u32));
+      .              .              .           . .           . .        .         
+-- line 335 ----------------------------------------
+-- line 345 ----------------------------------------
+      .              .              .           . .           . .        .                 // winner publishes before releasing) — no self-deadlock.
+      9 (0.0%)       9 (0.0%)       0           0 0           0 0        0                 let _chain = self.chain_lock();
+      .              .              .           . .           . .        .         
+-- line 347 ----------------------------------------
+-- line 365 ----------------------------------------
+      .              .              .           . .           . .        .                 // never terminate if `tail_id` is our tail again.
+      9 (0.0%)       0              0           0 0           0 0        0                 if let Some((tail_id, gen)) = observed {
+     18 (0.0%)       0              0           0 0           0 0        0                     if self.tail() != observed_tail || segments.header(tail_id).generation() != gen {
+      .              .              .           . .           . .        .                         segments.release_unused(id);
+-- line 368 ----------------------------------------
+-- line 383 ----------------------------------------
+      .              .              .           . .           . .        .                             // tail.
+      9 (0.0%)       0              0           0 0           0 0        0                             if tail.cas_metadata(
+      .              .              .           . .           . .        .                                 State::Live,
+-- line 385 ----------------------------------------
+-- line 414 ----------------------------------------
+      .              .              .           . .           . .        .                     None => {
+      0              0              0           0 0           0 0        0                         if self.cas_tail_none_to(id) {
+      .              .              .           . .           . .        .                             debug_assert!(self.head().is_none());
+-- line 416 ----------------------------------------
+-- line 456 ----------------------------------------
+      .              .              .           . .           . .        .                 Ok(())
+     72 (0.0%)     108 (0.0%)       0           0 0           0 0        0             }
+      .              .              .           . .           . .        .         
+-- line 458 ----------------------------------------
+-- line 466 ----------------------------------------
+      .              .              .           . .           . .        .             /// oversized or no segments are free.
+700,000 (1.0%)       0        900,000 (9.3%)    0 2 (0.0%)    0 2 (0.0%) 0             pub(crate) fn reserve(
+      .              .              .           . .           . .        .                 &self,
+-- line 468 ----------------------------------------
+-- line 473 ----------------------------------------
+      .              .              .           . .           . .        .         
+200,000 (0.3%)       0              0           0 0           0 0        3 (0.0%)          if size > seg_size {
+      .              .              .           . .           . .        .                     return Err(TtlBucketsError::ItemOversized { size });
+-- line 475 ----------------------------------------
+-- line 480 ----------------------------------------
+      .              .              .           . .           . .        .                     let tail = self.tail();
+100,009 (0.1%)       0              0           0 0           0 0        0                     match tail {
+      .              .              .           . .           . .        .                         Some(id) => {
+-- line 482 ----------------------------------------
+-- line 486 ----------------------------------------
+      .              .              .           . .           . .        .                             match segments.try_alloc_item(id, size as i32) {
+300,000 (0.4%)       0        400,000 (4.1%)    0 0           0 0        0                                 AllocOutcome::Reserved(reserved) => return Ok(reserved),
+      .              .              .           . .           . .        .                                 AllocOutcome::NotWritable => {
+-- line 488 ----------------------------------------
+-- line 498 ----------------------------------------
+      .              .              .           . .           . .        .                                     // (paired with the generation we observed above).
+     18 (0.0%)       0              0           0 0           0 0        0                                     self.try_expand(Some((id, observed_gen)), segments)?;
+      .              .              .           . .           . .        .                                 }
+-- line 500 ----------------------------------------
+-- line 503 ----------------------------------------
+      .              .              .           . .           . .        .                         None => {
+      0              0              0           0 0           0 0        0                             self.try_expand(None, segments)?;
+      .              .              .           . .           . .        .                         }
+-- line 505 ----------------------------------------
+-- line 507 ----------------------------------------
+      .              .              .           . .           . .        .                 }
+700,000 (1.0%) 900,000 (4.5%)       0           0 0           0 0        0             }
+      .              .              .           . .           . .        .         
+-- line 509 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotation summary
+--------------------------------------------------------------------------------
+Ir________________ Dr________________ Dw_______________ D1mr___________ D1mw__________ DLmr__________ DLmw__________ Bcm_____________ 
+
+42,487,994 (58.2%) 10,700,503 (53.6%) 7,900,241 (81.4%) 113,989 (47.7%)  6,257  (9.1%) 71,442 (46.0%)  6,258  (9.1%) 116,279 (100.0%)    annotated: files known & above threshold & readable, line numbers known
+ 5,300,131  (7.3%)    500,008  (2.5%) 1,200,031 (12.4%)       0              0              0              0               0             annotated: files known & above threshold & readable, line numbers unknown
+         0                  0                 0               0              0              0              0               0           unannotated: files known & above threshold & two or more non-identical
+22,501,449 (30.8%)  8,543,376 (42.8%)   600,037  (6.2%) 124,842 (52.3%) 62,502 (90.9%) 84,006 (54.0%) 62,502 (90.9%)      17   (0.0%)  unannotated: files known & above threshold & unreadable 
+ 2,342,706  (3.2%)    114,194  (0.6%)       -16 (-0.0%)      27  (0.0%)      7  (0.0%)     11  (0.0%)     -1 (-0.0%)      39   (0.0%)  unannotated: files known & below threshold
+   400,028  (0.5%)    100,007  (0.5%)         0               9  (0.0%)      0              0              0               1   (0.0%)  unannotated: files unknown
+
