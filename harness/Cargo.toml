@@ -1,0 +1,26 @@
+[package]
+name = "lab"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+publish = false
+
+# Its own workspace root, so cargo does not look upward for one.
+[workspace]
+
+[dependencies]
+# Pinned by scripts/pins.tsv; scripts/fetch.sh checks out the commit.
+segcache = { path = "../repos/cache-rs/crates/segcache" }
+keyvalue = { path = "../repos/cache-rs/crates/keyvalue" }
+
+[features]
+# Drive segcache's expiry from a caller-supplied clock. Used by `verify` only:
+# it puts a thread-local lookup on the engine's read path.
+vclock = ["segcache/virtual-clock"]
+
+# Matches cache-rs's own release profile.
+[profile.release]
+opt-level = 3
+debug = true
+lto = true
+codegen-units = 1
