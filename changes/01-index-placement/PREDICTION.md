@@ -89,3 +89,23 @@ those loads are 0.565 to 0.57 and 0.745 to 0.755.
 - A P7 hit cost above 30 instructions would mean the capacity gain carries a
   lookup cost that Stop 3 did not price. It would need weighing against the
   1.1× to 1.4× capacity gain.
+
+## Follow-up 0002: single-pass claim
+
+Added after measuring 0001, before measuring 0002. In 0001, P7 failed on
+new-key inserts: +215 instructions where +20 to 60 was predicted. 0001 scans
+each candidate twice before claiming: once for a matching-tag ghost, once to
+count live entries. `0002-single-pass-claim.patch`, applied on top of 0001,
+reads both facts in one relaxed pass per candidate (`scan_for_claim`). It
+then takes the ghost or claims a free slot in the same order as 0001.
+
+**Q1.** Placement is unchanged from 0001. The fit-search and refusal-curve
+CSVs from the 0001+0002 build are identical to 0001's, row for row.
+
+**Q2.** A new-key insert costs 40 to 90 instructions more than the unpatched
+engine, 1,116 to 1,166 against 1,076.
+
+**Q3.** Every other operation is within ±5 instructions of 0001.
+
+**Q4.** cache-rs's default, debug and shuttle suites pass with the same
+counts as on the pinned commit. All 13 `make verify` checks pass.

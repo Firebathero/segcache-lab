@@ -1,0 +1,77 @@
+diff --git i/crates/segcache/src/hashtable/table.rs w/crates/segcache/src/hashtable/table.rs
+index c2fca8e..0a61da7 100644
+--- i/crates/segcache/src/hashtable/table.rs
++++ w/crates/segcache/src/hashtable/table.rs
+@@ -301,6 +301,28 @@ impl MultiChoiceHashtable {
+         (tag, buckets)
+     }
+ 
++    /// One relaxed pass over a bucket for the fresh-insert decision: whether
++    /// a ghost with this tag is present, and the number of live entries.
++    /// Both are hints; the claim itself re-reads each slot and CASes.
++    #[inline]
++    fn scan_for_claim(&self, bucket_index: usize, tag: u16) -> (bool, usize) {
++        let bucket = self.bucket(bucket_index);
++        let mut has_ghost = false;
++        let mut occupied = 0;
++        for slot in &bucket.items {
++            let packed = slot.load(Ordering::Relaxed);
++            if packed == 0 {
++                continue;
++            }
++            if Hashbucket::is_ghost(packed) {
++                has_ghost |= Hashbucket::tag(packed) == tag;
++            } else {
++                occupied += 1;
++            }
++        }
++        (has_ghost, occupied)
++    }
++
+     /// Count occupied (non-empty, non-ghost) slots in a bucket.
+     #[inline]
+     fn count_occupied(&self, bucket_index: usize) -> usize {
+@@ -1325,7 +1347,19 @@ impl Hashtable for MultiChoiceHashtable {
+         // candidates are full from roughly a third of the slots onward;
+         // least-loaded placement keeps candidates balanced so the table
+         // fills much further before an insert is refused.
+-        for &bucket_index in choices {
++        //
++        // One pass per candidate reads both facts the decision needs: whether
++        // it holds a matching-tag ghost, and how many live entries it has.
++        let mut live = [0usize; MAX_CHOICES as usize];
++        let mut ghost_at = None;
++        for (i, &bucket_index) in choices.iter().enumerate() {
++            let (has_ghost, occupied) = self.scan_for_claim(bucket_index, tag);
++            live[i] = occupied;
++            if has_ghost && ghost_at.is_none() {
++                ghost_at = Some(bucket_index);
++            }
++        }
++        if let Some(bucket_index) = ghost_at {
+             if self.try_take_matching_ghost(bucket_index, tag, new_packed) {
+                 return Ok(Insert::Created);
+             }
+@@ -1334,12 +1368,20 @@ impl Hashtable for MultiChoiceHashtable {
+         order[..choices.len()].copy_from_slice(choices);
+         let order = &mut order[..choices.len()];
+         if order.len() == 2 {
+-            if self.count_occupied(order[1]) < self.count_occupied(order[0]) {
++            if live[1] < live[0] {
+                 order.swap(0, 1);
+             }
+         } else if order.len() > 2 {
+             // Stable: ties keep choice order.
+-            order.sort_by_key(|&b| self.count_occupied(b));
++            let mut idx = [0usize; MAX_CHOICES as usize];
++            for (i, slot) in idx[..choices.len()].iter_mut().enumerate() {
++                *slot = i;
++            }
++            let idx = &mut idx[..choices.len()];
++            idx.sort_by_key(|&i| live[i]);
++            for (dst, &i) in order.iter_mut().zip(idx.iter()) {
++                *dst = choices[i];
++            }
+         }
+         for &bucket_index in order.iter() {
+             if self.try_claim_free_slot(bucket_index, new_packed) {
