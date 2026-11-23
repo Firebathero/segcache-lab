@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Stop 3 figures, light and dark, drawn with experiment 01's chart code."""
 
+import csv
 import importlib.util
 import pathlib
+import statistics
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location("p01", ROOT / "experiments/01-metadata-overhead/plot.py")
@@ -43,6 +45,29 @@ def capacity_figure():
     c.save("03-capacity-gain")
 
 
+def scaling_figure():
+    rows = list(csv.DictReader((pathlib.Path(__file__).resolve().parent / "scaling.csv").open()))
+
+    def speedup(op):
+        med = {t: statistics.median(float(r["mops"]) for r in rows
+                                    if r["build"] == "metrics" and r["op"] == op and r["threads"] == str(t))
+               for t in (1, 2, 4, 8)}
+        return [(t, med[t] / med[1]) for t in med]
+
+    c = Chart("Throughput by thread count, relative to one thread",
+              "One shared cache: 1M objects of 64 B, 2^23 slots, uniform keys. Median of 5. M4 Pro, AC power.",
+              Axis(1, 8, ticks=[1, 2, 4, 8]),
+              Axis(0, 8, ticks=[0, 1, 2, 4, 6, 8], fmt=lambda v: f"{v:g}×"),
+              "threads", "throughput, one thread = 1×")
+    c.add("get", 0, speedup("get"), markers=True)
+    c.add("get, no frequency update", 1, speedup("peek"), markers=True)
+    c.add("miss", 2, speedup("miss"), markers=True)
+    c.add("replace", 3, speedup("replace"), markers=True)
+    c.note(4, speedup("get")[2][1], "get peaks at 4 threads", dx=30, dy=44)
+    c.save("03-read-scaling")
+
+
 if __name__ == "__main__":
     ttl_figure(1)
     capacity_figure()
+    scaling_figure()

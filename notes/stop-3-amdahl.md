@@ -13,8 +13,9 @@ third, and only the part of it spent inside the engine.
 
 The count-based half below needs no timing: it comes from experiment 01,
 Stop 2 and the placement and cache models. `profiles/amdahl/model.py` prints
-every table. The timed half, recorded as predictions, needs AC power and
-powermode 0 (`env/host.md`). Its runs are pending.
+every table. The timed half was recorded as predictions, then run on AC
+power at powermode 0 (`env/host.md`). Its results and a revised ranking
+follow the predictions.
 
 ## Memory: objects per byte
 
@@ -145,6 +146,88 @@ global counters.
 least 5×. Unpipelined, the engine's lookup is under 10% of server CPU per
 request.
 
+## Timed half: results
+
+Run on 2026-11-23 on AC power, powermode 0 (`profiles/amdahl/host.md`), with
+the profiling VM stopped. Data: `latency.csv`, `scaling.csv`, `rtt.csv`.
+Each cell is the median of five repetitions; ranges are in the CSVs.
+
+**Latency, one thread, ns per operation** (default build, metrics on):
+
+| working set | get | get, no frequency update | miss | replace |
+|---|---:|---:|---:|---:|
+| cached: 1,024 objects, 2^13 slots | 26.7 | 27.0 | 12.5 | 44.7 |
+| DRAM: 4M objects, 2^24 slots | 143.6 | 144.2 | 70.9 | 152.8 |
+
+**Throughput, one shared cache, millions of operations per second**
+(1M objects of 64 B, 2^23 slots, uniform keys):
+
+| operation | 1 thread | 2 | 4 | 8 | 8 threads over 1 |
+|---|---:|---:|---:|---:|---:|
+| get | 7.5 | 12.8 | 21.1 | 15.2 | 2.02× |
+| get, no frequency update | 7.5 | 15.0 | 28.7 | 53.2 | 7.06× |
+| miss | 15.9 | 31.8 | 62.0 | 126.3 | 7.96× |
+| replace | 7.1 | 6.2 | 5.5 | 3.1 | 0.44× |
+
+Without the metrics feature, every get, no-frequency-update and miss cell is
+within its run-to-run range. Replace is not: 10.9 and 7.6 M/s at 2 and 4
+threads, against 6.2 and 5.5 with metrics. At 8 threads the two builds agree.
+
+![Throughput by thread count](../profiles/amdahl/figures/03-read-scaling.svg)
+
+**Network share:** memcached 1.6.45 with one worker thread over loopback.
+
+| batch | clients | server CPU per get | gets per second |
+|---:|---:|---:|---:|
+| 1 | 1 | 5,301 ns | 67,737 |
+| 1 | 4 | 4,470 ns | 150,213 |
+| 1 | 8 | 5,825 ns | 166,870 |
+| 32 | 8 | 398 ns | 3,332,744 |
+
+### Scorecard
+
+| | prediction | outcome |
+|---|---|---|
+| T1 | cached get at most 40% of a DRAM-set get | held: 26.7 against 143.6 ns, 19%. About 81% of a DRAM-set get is memory wait |
+| T2 | get with metrics scales under 3× to 8 threads; get without frequency update or metrics over 5× | held: 2.02× and 7.12×. The stated cause was partly wrong: metrics play no part (T3) |
+| T3 | metrics cost at least 30% of no-frequency-update throughput at 8 threads | **failed:** 0%, 53.2 against 53.2 M/s. The read path increments no counter (`get_pinned`, `segcache.rs:270`). The 6-instruction get-hit gap between the two builds in Stop 2 falls on lines with no counter, so it is code generation |
+| T4 | batching 32 cuts server CPU per get at least 5×; the engine is under 10% of an unpipelined get | held: 14.6× (5,825 to 398 ns). The engine's get, 27 to 144 ns, is 0.5% to 2.7% of memcached's 5.3 µs |
+
+### What the scaling shows
+
+- **The frequency update is the read path's serial section.** Single-
+  threaded, get and get-without-update cost the same (26.7 and 27.0 ns), so
+  the update costs no measurable time alone. With threads it caps the cache:
+  get peaks at 21.1 M/s at 4 threads and falls to 15.2 at 8, while the same
+  lookup without the update reaches 53.2, 3.5× as much.
+- **Why:** every hit on an item below frequency 127 does a `fetch_add` on one
+  shared word (`hashtable/table.rs:557` evaluates `freq_rng.next_u64()`
+  before `bucket.rs:112` tests `freq <= 16`; `rand.rs:57`). Hits at
+  frequency 16 or below also CAS their index slot. In this run no key
+  reaches 127, so every get takes the shared word. The C artifact draws only
+  above 16 (`hashtable.c:684`). It attempts at most one update per item per
+  second, using an indicator bit inside the frequency field (`hashtable.c:46`);
+  that is the "smoothed" in the paper's ASFC. cache-rs has neither, although
+  its `docs/s3fifo.md:78` refers to the smoothing. Separating the shared word
+  from the slot CAS is change 02's measurement.
+- **The fall from 4 to 8 threads** fits the shared line crossing between
+  the two P-core clusters, which hold 4 cores each per `host.md`. This is
+  not tested.
+- **Reader pins** are the next serial cost. A hit pins its segment and a
+  miss does not. Get-without-update reaches 7.06× at 8 threads and miss
+  7.96×, which bounds the pins at about 11% here. Skewed keys concentrate
+  hits on fewer segments, where the cost would be larger.
+- **Writes do not scale at all.** Replace throughput falls with every
+  thread added. This fits target 11: every writer to a TTL bucket CASes that
+  bucket's one tail offset, and this run uses a single TTL. Upstream measured
+  flat write throughput to 16 threads for the same reason (cache-rs #85).
+  The stripe locks have not been excluded. Not tested here.
+- **A crude bound for a mix.** Take reads and writes as separately capped
+  at their 8-thread rates, so a mix with write share `w` runs at most
+  `min(R / (1 − w), 3.1 / w)` M/s. Today R is 15.2, and reads bind below
+  17% writes. At R = 53.2, writes bind above 5.5%. Fixing the read path
+  raises the bound 3.5× at 1% and 5% writes, and 1.8× at 10%.
+
 ## Provisional ranking
 
 By the total each change can move, before the timed half:
@@ -166,3 +249,33 @@ By the total each change can move, before the timed half:
    networked request's CPU, so these cap at about 2% of server CPU. They are
    worth doing when the engine runs in-process, for example inside an HTTP
    proxy, not as a fleet lever.
+
+## Ranking after the timed half
+
+1. **The frequency update on the read path (targets 5 and 6).** Measured:
+   it caps the whole cache at 15.2 M gets/s at 8 threads, against 53.2 M/s
+   for the same lookup without it. It binds wherever the engine sees more
+   than about 15 M gets/s: in-process, or behind a pipelined server
+   (memcached served 3.3 M gets/s per worker thread at batch 32). pelikan
+   shares one store across its worker threads (`src/core/server/src/workers/
+   worker.rs:80`, `:115`), so the cap applies to the server as deployed.
+   cache-rs's own `CLAUDE.md` still describes reads as `&mut self` with one
+   cache per thread; the code at the pin takes `&self`. Change 02.
+2. **TTL floor (14), for short-TTL traffic.** Unchanged. Experiment 03.
+3. **Index placement and sizing (1).** Least-loaded placement is done
+   (`changes/01-index-placement`). It turned out to be a time win as well:
+   0.68× the time per operation in a DRAM-sized set. Exact sizing remains,
+   worth 1.20× to 1.33× at 64 B.
+4. **Write-path scaling (11).** Replace throughput falls with threads. It
+   binds after item 1 for write shares above about 5%. Consistent with one
+   CAS'd tail per TTL bucket; not yet tested.
+5. **Instruction-level work (2, 3, 4, 15).** Single-threaded, a DRAM-set get
+   is about 81% memory wait. Behind a network, the engine is 0.5% to 2.7% of
+   server CPU per unpipelined get. This work pays only in-process with a
+   cache-resident working set.
+6. **Metrics counters (16).** Removed from the list. No counter is
+   incremented on the read path, and on writes they matter only at 2 to 4
+   threads.
+
+For a networked server the largest lever is outside the engine. Per-request
+CPU falls 14.6× from batch 1 to batch 32.

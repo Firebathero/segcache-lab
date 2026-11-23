@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" font-family='system-ui, -apple-system, "Segoe UI", sans-serif' role="img" aria-label="Throughput by thread count, relative to one thread">
+<rect width="760" height="440" fill="#1a1a19"/>
+<text x="64" y="28" font-size="16" font-weight="600" fill="#f0efec">Throughput by thread count, relative to one thread</text>
+<text x="64" y="48" font-size="12" fill="#c3c2b7">One shared cache: 1M objects of 64 B, 2^23 slots, uniform keys. Median of 5. M4 Pro, AC power.</text>
+<line x1="64" y1="70" x2="80" y2="70" stroke="#3987e5" stroke-width="2" stroke-linecap="round"/>
+<text x="86" y="74" font-size="12" fill="#c3c2b7">get</text>
+<line x1="129.0" y1="70" x2="145.0" y2="70" stroke="#d95926" stroke-width="2" stroke-linecap="round"/>
+<text x="151.0" y="74" font-size="12" fill="#c3c2b7">get, no frequency update</text>
+<line x1="341.0" y1="70" x2="357.0" y2="70" stroke="#199e70" stroke-width="2" stroke-linecap="round"/>
+<text x="363.0" y="74" font-size="12" fill="#c3c2b7">miss</text>
+<line x1="413.0" y1="70" x2="429.0" y2="70" stroke="#c98500" stroke-width="2" stroke-linecap="round"/>
+<text x="435.0" y="74" font-size="12" fill="#c3c2b7">replace</text>
+<line x1="64" y1="388.0" x2="592" y2="388.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="56" y="392.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">0×</text>
+<line x1="64" y1="354.0" x2="592" y2="354.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="56" y="358.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">1×</text>
+<line x1="64" y1="320.0" x2="592" y2="320.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="56" y="324.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">2×</text>
+<line x1="64" y1="252.0" x2="592" y2="252.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="56" y="256.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">4×</text>
+<line x1="64" y1="184.0" x2="592" y2="184.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="56" y="188.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">6×</text>
+<line x1="64" y1="116.0" x2="592" y2="116.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="56" y="120.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">8×</text>
+<line x1="64.0" y1="388" x2="64.0" y2="392" stroke="#383835" stroke-width="1"/>
+<text x="64.0" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">1</text>
+<line x1="139.4" y1="388" x2="139.4" y2="392" stroke="#383835" stroke-width="1"/>
+<text x="139.4" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">2</text>
+<line x1="290.3" y1="388" x2="290.3" y2="392" stroke="#383835" stroke-width="1"/>
+<text x="290.3" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">4</text>
+<line x1="592.0" y1="388" x2="592.0" y2="392" stroke="#383835" stroke-width="1"/>
+<text x="592.0" y="406" font-size="11" text-anchor="middle" fill="#898781" style="font-variant-numeric: tabular-nums">8</text>
+<line x1="64" y1="388" x2="592" y2="388" stroke="#383835" stroke-width="1"/>
+<text x="328.0" y="428" font-size="12" text-anchor="middle" fill="#c3c2b7">threads</text>
+<text x="64" y="106" font-size="12" fill="#c3c2b7">throughput, one thread = 1×</text>
+<path d="M64.0,354.0L139.4,358.3L290.3,361.8L592.0,373.1" fill="none" stroke="#c98500" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="354.0" r="4" fill="#c98500" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="139.4" cy="358.3" r="4" fill="#c98500" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="290.3" cy="361.8" r="4" fill="#c98500" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="592.0" cy="373.1" r="4" fill="#c98500" stroke="#1a1a19" stroke-width="2"/>
+<path d="M64.0,354.0L139.4,319.9L290.3,255.0L592.0,117.2" fill="none" stroke="#199e70" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="354.0" r="4" fill="#199e70" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="139.4" cy="319.9" r="4" fill="#199e70" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="290.3" cy="255.0" r="4" fill="#199e70" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="592.0" cy="117.2" r="4" fill="#199e70" stroke="#1a1a19" stroke-width="2"/>
+<path d="M64.0,354.0L139.4,320.2L290.3,258.8L592.0,147.9" fill="none" stroke="#d95926" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="354.0" r="4" fill="#d95926" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="139.4" cy="320.2" r="4" fill="#d95926" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="290.3" cy="258.8" r="4" fill="#d95926" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="592.0" cy="147.9" r="4" fill="#d95926" stroke="#1a1a19" stroke-width="2"/>
+<path d="M64.0,354.0L139.4,330.1L290.3,292.6L592.0,319.4" fill="none" stroke="#3987e5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="354.0" r="4" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="139.4" cy="330.1" r="4" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="290.3" cy="292.6" r="4" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<circle cx="592.0" cy="319.4" r="4" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<text x="602.0" y="121.2" font-size="12" fill="#f0efec">miss</text>
+<text x="602.0" y="151.9" font-size="12" fill="#f0efec">get, no frequency update</text>
+<text x="602.0" y="323.4" font-size="12" fill="#f0efec">get</text>
+<text x="602.0" y="377.1" font-size="12" fill="#f0efec">replace</text>
+<line x1="290.3" y1="292.6" x2="320.3" y2="336.6" stroke="#898781" stroke-width="1"/>
+<text x="324.3" y="340.6" font-size="11" fill="#c3c2b7">get peaks at 4 threads</text>
+</svg>
