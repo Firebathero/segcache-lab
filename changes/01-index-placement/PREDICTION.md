@@ -130,3 +130,42 @@ The index is 2 MiB instead of 8 MiB.
 
 **R3.** get-miss cost is within ±5 instructions of the baseline. Both scan
 both buckets.
+
+## Follow-up: time per operation
+
+Added after the instruction counts above, before any timed run of either
+build at these parameters. `timing.py` runs `scale` single-threaded on the
+host in `env/host.md`, on AC power at powermode 0. Each engine gets the index
+it needs for a refusal-free fill:
+
+- **small:** the cachegrind workload, 180,000 objects of 64 B. First-fit
+  uses 2^20 slots (8 MiB), least-loaded 2^18 (2 MiB). Index plus heap is
+  about 24 and 18 MB, against a 16 MiB L2 per P-core cluster.
+- **large:** the same loads ×8, 1,440,000 objects. First-fit uses 2^23
+  (64 MiB), least-loaded 2^21 (16 MiB). The heap is about 127 MB, so the item
+  read is a DRAM miss for both.
+
+`get` and `miss` run 2,000,000 operations over the end state (3 processes ×
+5 repetitions). `insert` prefills 7/9 of the end state and times the
+remaining 2/9 as fresh keys (10 processes, 1 repetition each). The ratios
+below are least-loaded median over first-fit median. A ratio inside the
+run-to-run range of either build counts as no difference.
+
+**S1.** small, get-hit: 0.90 to 1.05. The +22 instructions and the smaller
+index roughly cancel in a working set near the L2 size.
+
+**S2.** small, get-miss: at most 1.02.
+
+**S3.** small, insert: 1.05 to 1.30, the +27% instructions partly hidden
+behind the item write.
+
+**S4.** large, get-hit: at most 0.95. First-fit's index read misses to DRAM
+before the item read can start. A 16 MiB index is partly resident in L2 and
+the system cache, so least-loaded pays that serial miss less often.
+
+**S5.** large, get-miss: at most 0.95, for the same reason with no item
+read.
+
+**S6.** large, insert: 0.80 to 1.20.
+
+**S7.** The 80/10/10 mix is 0.95 to 1.05 small and at most 0.97 large.

@@ -10,6 +10,8 @@
 //!   peek      `Segcache::get_no_freq_incr`: the same lookup without it
 //!   miss      `get` of keys never inserted
 //!   replace   `insert` over existing keys
+//!   insert    `insert` of keys not yet present. Each repetition adds
+//!             `n` objects per thread, so `--reps 1` keeps the end state fixed
 
 use lab::data::{self, KEY_LEN};
 use lab::model::MIB;
@@ -56,7 +58,7 @@ fn run(cache: &Segcache, op: &str, keys: &[[u8; KEY_LEN]], value: &[u8]) -> u64 
                 ok += cache.get(k).is_none() as u64;
             }
         }
-        "replace" => {
+        "replace" | "insert" => {
             for k in keys {
                 ok += cache.insert(k, value, None, Duration::ZERO).is_ok() as u64;
             }
@@ -68,7 +70,10 @@ fn run(cache: &Segcache, op: &str, keys: &[[u8; KEY_LEN]], value: &[u8]) -> u64 
 
 fn main() {
     let a = Args::parse();
-    let op = a.get("op").expect("--op get|peek|miss|replace").to_string();
+    let op = a
+        .get("op")
+        .expect("--op get|peek|miss|replace|insert")
+        .to_string();
     let threads: usize = a.num("threads", 1);
     let n: usize = a.num("n", 1_000_000);
     let prefill: u64 = a.num("prefill", 1_000_000);
@@ -92,7 +97,15 @@ fn main() {
 
     for rep in 0..reps {
         let loads: Vec<_> = (0..threads)
-            .map(|t| keys(n, prefill, op == "miss", 1 + rep as u64 * 1000 + t as u64))
+            .map(|t| {
+                if op == "insert" {
+                    // The keys after the prefill, as profile.rs's insert-fresh uses.
+                    let base = prefill + (rep as u64 * threads as u64 + t as u64) * n as u64;
+                    (base..base + n as u64).map(data::key).collect()
+                } else {
+                    keys(n, prefill, op == "miss", 1 + rep as u64 * 1000 + t as u64)
+                }
+            })
             .collect();
         let barrier = Barrier::new(threads + 1);
         let (elapsed, ok) = std::thread::scope(|s| {
