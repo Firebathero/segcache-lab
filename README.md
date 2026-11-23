@@ -28,18 +28,30 @@ Sixteen candidate changes are mapped in [Stop 2](notes/stop-2-hot-paths.md).
 [Stop 3](notes/stop-3-amdahl.md) ranks them by what they can move overall,
 not by local cost:
 
-1. **TTL floor.** Max-ages of 1–7 s live 1 s, so for short-TTL traffic an
+1. **The frequency update on the read path.** Every hit below frequency 127
+   does a `fetch_add` on one shared word. At 8 threads this caps the cache at
+   15.2 M gets/s, against 53.2 M/s for the same lookup without the update,
+   and throughput falls from 4 threads to 8. The paper's C artifact draws a
+   random number only above frequency 16 and updates each item at most once
+   per second.
+2. **TTL floor.** Max-ages of 1–7 s live 1 s, so for short-TTL traffic an
    object's miss ratio rises 1.5× to 4.5×. Negligible for TTLs of minutes or
    more.
-2. **Index placement and sizing.** First-fit two-choice placement in a
-   power-of-two table. Least-loaded placement in an exactly sized table holds
-   1.50× as many objects per byte at 32 B values and 1.33× at 64 B.
-3. **Shared-line atomics on the read path.** The frequency RNG word, slot
-   CAS, reader pins and metrics counters. Their cost under threads is
-   pending measurement.
-4. **Instruction-level work.** The ghost rescan, NEON tag mask and insert
-   rescans: at most 23% of engine instructions, which is a small share of a
-   networked request.
+3. **Index placement and sizing.** Least-loaded placement (change 01) holds
+   1.44× as many objects per byte at 32 B values. It also takes 0.68× the
+   time per operation in a DRAM-sized working set. Exact sizing would raise
+   64 B values from 1.20× to 1.33×.
+4. **Write-path scaling.** Replace throughput falls with every thread
+   added, to 0.44× of one thread at 8. This fits the single CAS'd tail per
+   TTL bucket (cache-rs #85), not yet tested here.
+5. **Instruction-level work.** A get against a DRAM-sized working set is
+   about 81% memory wait. Behind a network the engine is under 3% of server
+   CPU per request.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="profiles/amdahl/figures/03-read-scaling-dark.svg">
+  <img alt="Throughput by thread count: get peaks at 4 threads" src="profiles/amdahl/figures/03-read-scaling.svg">
+</picture>
 
 ## Changes to the engine
 
@@ -49,7 +61,7 @@ committed before it is measured, and it runs through cache-rs's own unit,
 
 | # | change | result | details |
 |---|---|---|---|
-| 01 | Least-loaded placement in the hash index, as cache-rs's docs describe | First refused insert at 0.71–0.80 load instead of 0.30–0.55. The index needs one power of two fewer slots: 1.44× objects per byte at 32 B values, 1.20× at 64 B, 1.11× at 128 B. A hit costs about 22 more instructions and a new-key insert up to 299 more. All suites pass. | [RESULTS](changes/01-index-placement/RESULTS.md) · [patches](changes/01-index-placement/) |
+| 01 | Least-loaded placement in the hash index, as cache-rs's docs describe | First refused insert at 0.71–0.80 load instead of 0.30–0.55. The index needs one power of two fewer slots: 1.44× objects per byte at 32 B values, 1.20× at 64 B, 1.11× at 128 B. A hit costs about 22 more instructions and a new-key insert up to 299 more, yet with a DRAM-sized working set an 80/10/10 mix takes 0.68× the time. All suites pass. | [RESULTS](changes/01-index-placement/RESULTS.md) · [patches](changes/01-index-placement/) |
 
 ## Source notes
 
@@ -57,7 +69,7 @@ committed before it is measured, and it runs through cache-rs's own unit,
 |---|---|---|
 | 1 | Item, segment and index layout in both engines; paper vs C artifact vs Rust; where cache-rs's docs and code disagree | [notes/stop-1-layout.md](notes/stop-1-layout.md) |
 | 2 | Exact instructions per operation by component and source line; sixteen targets pinned to the structures they live in | [notes/stop-2-hot-paths.md](notes/stop-2-hot-paths.md) · [target map](notes/target-map.svg) |
-| 3 | Amdahl budget: each target judged against memory, misses and CPU; timed half pending AC power | [notes/stop-3-amdahl.md](notes/stop-3-amdahl.md) |
+| 3 | Amdahl budget: each target judged against memory, misses and CPU; latency, read scaling to 8 threads and network share, timed | [notes/stop-3-amdahl.md](notes/stop-3-amdahl.md) |
 
 ## What you run
 
@@ -100,18 +112,19 @@ gives the paper's URL and SHA-256.
 
 ## Not measured yet
 
-- **Throughput and latency.** This host is macOS on Apple silicon, with no core
-  affinity and mixed core types. Timing claims are bounded, and thread scaling
-  (planned experiment 06) needs a Linux host. See `env/host.md`.
+- **Scaling past 8 threads.** This host is macOS on Apple silicon, with no
+  core affinity and mixed core types. Stop 3's scaling stops at the 8
+  performance cores. Wider curves (planned experiment 06) need a Linux host.
+  See `env/host.md`.
 - **Expiry behaviour (02, 03).** `make verify` already pins the TTL bucket
   floor exactly: a 10 s TTL lives 8 s, and 1–7 s TTLs live 1 s
   (`notes/stop-1-layout.md`, harness `model.rs`). The memory and hit-ratio
   consequences are not measured yet.
-- **Time per operation for change 01.** Change 01 trades instructions for
-  last-level misses, and the timed comparison is pending AC power.
-- **Multi-threaded contention.** Stop 2 confirms three shared-line writes on
-  the read path (the frequency RNG word, the frequency CAS, the reader pin).
-  Their cost under threads is unmeasured.
+- **Which shared write caps reads.** Stop 3 shows the frequency update caps
+  read throughput. Separating the shared RNG word from the slot CAS is
+  change 02.
+- **Why writes do not scale.** The single tail per TTL bucket is the
+  leading candidate, untested.
 
 ## Licence
 

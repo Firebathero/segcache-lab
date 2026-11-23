@@ -9,8 +9,10 @@ values, which is 1.44× as many objects in the same memory.
 
 The cost is in instructions. Holding the same objects, a hit costs 22 more
 and a new-key insert 299 more. In exchange, the smaller index removes nearly
-all simulated last-level misses on hits. cache-rs's own test and concurrency
-suites pass unchanged.
+all simulated last-level misses on hits. Timed natively, the trade favours
+the change: with a DRAM-sized working set, an 80/10/10 mix of hits, misses
+and inserts takes 0.68× as long per operation. cache-rs's own test and
+concurrency suites pass unchanged.
 
 Patches against cache-rs `4620d7e`:
 
@@ -19,8 +21,9 @@ Patches against cache-rs `4620d7e`:
   placement identical.
 
 Predictions are in `PREDICTION.md`, committed before each measurement.
-All counts were taken on 2026-11-22. Capacity was measured natively and
-instruction counts in the arm64 VM (Stop 2's method). No timing is reported.
+Counts were taken on 2026-11-22. Capacity was measured natively and
+instruction counts in the arm64 VM (Stop 2's method). Times were taken
+natively on 2026-11-23, on AC power at powermode 0, with the VM stopped.
 
 ## Correctness
 
@@ -110,8 +113,40 @@ The new-key cost at 69% load comes from the claim loop walking further to
 find an empty slot. A first-fit index never runs that full. For the 80/10/10
 hit/miss/insert mix of Stop 3 at this load, the change adds about 48
 instructions per operation, +9%. In exchange it removes an average of 0.40
-last-level misses per hit. Whether time per operation rises or falls is a timed
-measurement, pending AC power.
+last-level misses per hit. The next section times the trade.
+
+## Time per operation
+
+`timing.py`, one thread, ns per operation. Each cell is the median of 15
+samples for get and miss and 10 for insert; the range is min to max. Each
+engine has the index it needs for a refusal-free fill.
+
+| working set | operation | first-fit | least-loaded | ratio |
+|---|---|---:|---:|---:|
+| small: 180,000 objects (2^20, 2^18) | get, hit | 45.1 (42.4–48.0) | 40.5 (38.2–42.3) | 0.898 |
+| | get, miss | 17.5 (17.3–17.8) | 16.4 (16.2–22.0) | 0.937 |
+| | insert, new key | 58.3 (55.5–107.2) | 67.2 (65.6–70.6) | 1.151 |
+| | 80/10/10 mix | 43.7 | 40.8 | 0.934 |
+| large: 1,440,000 objects (2^23, 2^21) | get, hit | 135.0 (133.6–136.6) | 97.1 (94.6–106.4) | 0.719 |
+| | get, miss | 63.3 (62.5–65.8) | 22.6 (21.8–40.2) | 0.357 |
+| | insert, new key | 146.1 (142.2–166.9) | 75.8 (74.3–126.7) | 0.519 |
+| | 80/10/10 mix | 128.9 | 87.5 | 0.679 |
+
+- **Instruction counts predicted the wrong sign.** In the large set the
+  change costs about 9% more instructions for the mix and takes 32% less
+  time. First-fit's 64 MiB index misses to DRAM before the item read can
+  start. Least-loaded's 16 MiB index is mostly resident in L2 and the system
+  cache.
+- **The largest effect is on misses** (0.36×). A miss reads both candidate
+  buckets and nothing else, so it measures the index alone.
+- **New-key inserts are faster in the large set** (0.52×) and slower only in
+  the small one (1.15×). An insert first reads both candidates, as a miss
+  does, so it carries the same saving. The claim loop's extra instructions
+  show only when the index is already cached.
+- A few single samples sit far above their medians, for example 126.7 ns
+  for a least-loaded large insert. These are consistent with the scheduler
+  placing a run on an efficiency core; macOS offers no affinity control.
+  Medians are used throughout.
 
 ## Prediction scorecard
 
@@ -132,6 +167,13 @@ measurement, pending AC power.
 | R1 | at the same object count, hit +≤40 | held: +22.1 |
 | R2 | LL misses per hit no higher | held: 0.40 to 0.00 |
 | R3 | miss within ±5 | held: +0.2 |
+| S1 | small get-hit ratio 0.90 to 1.05 | **failed, narrowly, in the change's favour:** 0.898. The two ranges do not overlap |
+| S2 | small get-miss at most 1.02 | held: 0.937 |
+| S3 | small new-key insert 1.05 to 1.30 | held: 1.151 |
+| S4 | large get-hit at most 0.95 | held: 0.719 |
+| S5 | large get-miss at most 0.95 | held: 0.357 |
+| S6 | large new-key insert 0.80 to 1.20 | **failed, in the change's favour:** 0.519. The prediction priced the claim loop's instructions and missed that an insert reads both candidates first |
+| S7 | mix 0.95 to 1.05 small, at most 0.97 large | **small failed, in the change's favour:** 0.934. Large held: 0.679 |
 
 Correction: earlier commits and the README said `make verify` runs 14
 checks. It runs 13.
@@ -143,6 +185,8 @@ checks. It runs 13.
   Placement quality under many writer threads is not measured.
 - The new-key cost is load dependent and is measured at 7% and 69%
   occupancy only.
+- Times are single-threaded, on one host. Multi-threaded timing is in Stop 3
+  and does not compare placements.
 - A NEON version of the claim scan is the obvious next step for the insert
   cost (Stop 2, target 3's technique). It is not attempted here.
 - Capacity gains are measured at a fixed 64 MiB heap with one value size per

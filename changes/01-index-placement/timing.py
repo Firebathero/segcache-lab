@@ -37,7 +37,8 @@ HEADER = "regime,build,op,proc,op_,threads,rep,prefill,hash_power,ops,elapsed_ns
 def build():
     subprocess.run(["cargo", "build", "-q", "--release", "--bin", "scale"], cwd=ROOT / "harness", check=True)
     subprocess.run([str(ROOT / "scripts/variant.sh"), "least-loaded-2",
-                    str(HERE / "0001-least-loaded-claim.patch"), str(HERE / "0002-single-pass-claim.patch")],
+                    *(str((HERE / f).relative_to(ROOT)) for f in ("0001-least-loaded-claim.patch",
+                                                                   "0002-single-pass-claim.patch"))],
                    cwd=ROOT, check=True)
 
 
